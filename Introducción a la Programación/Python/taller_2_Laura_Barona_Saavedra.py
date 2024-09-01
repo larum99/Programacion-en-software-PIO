@@ -1,5 +1,24 @@
 import math, os
 
+def menu():
+    os.system('cls')
+    print('Menú principal')
+    # Primer opción
+    print('1. Mostrar lista en orden inverso')
+    # Segunda opción
+    print('2. Asignaturas a repetir')
+    # Tercer opción
+    print('3. Promedio y Desviación')
+    # Cuarta opción
+    print("4. Submenú")
+    # Quinta opción
+    print("5. Diccionario persona")
+    # Sexta opción
+    print("6. Diccionario cesta")
+    # Séptima opción
+    print("7. Diccionario agenda")
+    print("8. Salir")
+    
 # Primer opción
 def construir_lista():
     lista = [i for i in range(1, 21)]
@@ -47,26 +66,6 @@ def mostrar_asignaturas(asignaturas):
     else:
         print("\n¡Felicidades! No tienes asignaturas que repetir.")
 
-
-def menu():
-    os.system('cls')
-    print('Menú principal')
-    # Primer opción
-    print('1. Mostrar lista en orden inverso')
-    # Segunda opción
-    print('2. Asignaturas a repetir')
-    # Tercer opción
-    print('3. Promedio y Desviación')
-    # Cuarta opción
-    print("4. Submenú")
-    # Quinta opción
-    print("5. Diccionario persona")
-    # Sexta opción
-    print("6. Diccionario cesta")
-    # Séptima opción
-    print("7. Diccionario agenda")
-    print("8. Salir")
-    
 # Tercer opción
 def calcular_promedio(lista_numeros):
     return sum(lista_numeros) / len(lista_numeros)
