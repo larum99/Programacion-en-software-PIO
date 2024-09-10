@@ -1,0 +1,85 @@
+<!-- Crea una página web que contenga un formulario con los siguientes campos de información:
+El nombre, con un control de tipo texto.
+Los apellidos, con un control de tipo texto.
+El sexo, con dos opciones excluyentes hombre o mujer.
+El correo electrónico, con un control de tipo texto.
+Una casilla de verificación con el texto "Deseo recibir información sobre novedades y ofertas".
+Una casilla de verificación con el texto "Declaro haber leido y aceptar las condiciones generales del programa y la normativa sobre protección de datos".
+Un botón de envío.
+Además, tienes que tener en cuenta los siguientes requisitos:
+El título de la página debe ser Formulario de registro - Mi web.
+El método de envío del formulario debe ser GET.
+El destino del envío del formulario debe ser "".
+La longitud máxima de entrada de datos de los controles para el nombre y los apellidos debe ser 50 caracteres.
+La casilla de verificación con el texto "Deseo recibir información sobre novedades y ofertas" debe estar activada por defecto.
+Al formulario anterior le tienes que añadir los siguientes campos de información:
+Población, una lista desplegable con las opciones Cali, Buenaventura, Cartago y Palmira.
+Descripción, un área de texto multilínea. -->
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de registro</title>
+</head>
+<body>
+    <form action="" method="get">
+        <div>
+            <p>
+            Descripción: <textarea>
+
+            </textarea></p>
+        </div>
+        <div>
+            <p>
+                Nombre: <input type="text" name="txtNombre" maxlength="50">
+            </p>
+        </div>
+        <div>
+            <p>
+                Apellidos: <input type="text" name="txtApellidos" maxlength="50">
+            </p>
+        </div>
+        <div>
+            <p>
+                Sexo:
+                <input type="radio" name="sexo" id="sexo-h" value="h" />
+                <label for="sexo-h">hombre</label> <input type="radio" name="sexo" id="sexo-m" value="m" />
+                <label for="sexo-m">mujer</label>
+            </p>
+                
+        </div>
+        <div>
+            <p>
+                Correo: <input type="email" name="email" required>
+            </p>
+        </div>
+        <div>
+            <p>
+                Dirreción: <input type="text" name="txtDireccion" maxlength="30">
+            </p>
+        </div>
+        <div>
+            <p>
+                Población:
+                <select name="poblacion" required>
+                    <option value="cali">Cali</option>
+                    <option value=""></option>
+                    <option value=""></option>
+                    <option value=""></option>
+                </select>
+            </p>
+        </div>
+        <div>
+            <input type="checkbox" name="info" checked="checked"/>Deseo recibir ofertas.
+        </div>
+        <div>
+            <input type="checkbox" name="condiciones" />Declaro haber leído y aceptar  condiciones...
+        </div>
+        <div>
+            <input type="submit" value="Enviar">
+        </div>
+    </form>
+</body>
+</html>
