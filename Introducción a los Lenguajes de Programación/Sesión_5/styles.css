@@ -1,0 +1,38 @@
+/**
+{
+    background-color: #b9b4b4;
+}
+*/
+
+/* Selector de tipo html*/
+h1{
+    color: #377ba8;
+    text-align: center;
+    background-color: #fafafa;
+}
+
+/* Selector de tipo ID*/
+#formRegistro
+{
+    background-color: #fafafa;
+    border-style: dashed;
+    border-color: brown;
+    width: 80%;
+    text-align: center;
+    margin: auto;
+    padding: 20px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+input[type=text]
+{
+    border-style: solid;
+    border-width: 1px;
+
+}
+
+/* Selector de tipo clase*/
