@@ -493,6 +493,357 @@ postgres-# WHERE comañofun > 2001 AND comañofun < 2008;
  000000004-1 | compañía 5 |      2004 | legal compañía 5
 (3 rows)
 
+postgres=# SELECT autoplaca, automodelo, automarca, autopasajeros, autocilindraje, asevalorasegurado, asecosto 
+postgres-# FROM aseguramientos, automotores, tiposautomotores
+postgres-# WHERE autoplaca = aseplaca AND asefechaexpiracion <= '20231031' AND asefechaexpiracion >= '20231001';
+
+
+ autoplaca | automodelo | automarca | autopasajeros | autocilindraje | asevalorasegurado | asecosto 
+-----------+------------+-----------+---------------+----------------+-------------------+----------
+(0 rows)
+
+Nota: no hay ningún registro correspondiente a esa fecha.
+
+postgres=# SELECT inciplaca, incifecha, incilugar, incicodigo, asefechainicio, asecosto, aseestado, asevalorasegurado
+postgres-# FROM aseguramientos, incidentes
+postgres-# WHERE inciplaca = aseplaca AND incifecha = '2022-09-30';
+
+ inciplaca | incifecha | incilugar | incicodigo | asefechainicio | asecosto | aseestado | asevalorasegurado 
+-----------+-----------+-----------+------------+----------------+----------+-----------+-------------------
+(0 rows)
+
+postgres=# SELECT incicantheridos, autoplaca, incilugar, incifecha, asefechainicio, aseestado, asecosto, asevalorasegurado
+postgres-# FROM incidentes, aseguramientos, automotores
+postgres-# WHERE inciplaca = aseplaca AND autoplaca = inciplaca AND incicantheridos = 1;
+
+ incicantheridos | autoplaca |     incilugar      | incifecha  | asefechainicio | aseestado | asecosto | asevalorasegurado 
+-----------------+-----------+--------------------+------------+----------------+-----------+----------+-------------------
+               1 | DEF456    | Calle Falsa 123    | 2023-08-22 | 2022-07-15     | Expirado  |  1100000 |          45000000
+               1 | PQR678    | Avenida Las Palmas | 2023-04-25 | 2023-09-01     | Activo    |  1250000 |          48000000
+
+postgres=# SELECT * FROM aseguramientos
+postgres-# WHERE asecosto IN(SELECT MAX(asecosto) FROM aseguramientos);
+
+ asecodigo | asefechainicio | asefechaexpiracion | asevalorasegurado | aseestado | asecosto | aseplaca 
+-----------+----------------+--------------------+-------------------+-----------+----------+----------
+         5 | 2023-05-20     | 2024-05-20         |          70000000 | Activo    |  1400000 | MNO345
+(1 row)
+
+postgres=# SELECT aseestado, asevalorasegurado 
+postgres-# FROM aseguramientos 
+postgres-# WHERE aseplaca IN (SELECT inciplaca 
+postgres(# FROM incidentes 
+postgres(# WHERE incicanautosinvolucrados = (SELECT MIN(incicanautosinvolucrados) 
+postgres(#FROM incidentes));
+
+ aseestado | asevalorasegurado 
+-----------+-------------------
+ Activo    |          60000000
+(1 row)
+
+postgres=# SELECT inciplaca, incifecha, incilugar, incicantheridos, asefechainicio, asefechaexpiracion, asevalorasegurado
+postgres-# FROM incidentes, aseguramientos
+postgres-# WHERE inciplaca = aseplaca AND inciplaca = 'QGX767';
+
+ inciplaca | incifecha  |      incilugar       | incicantheridos | asefechainicio | asefechaexpiracion | asevalorasegurado 
+-----------+------------+----------------------+-----------------+----------------+--------------------+-------------------
+ QGX767    | 2023-09-15 | Avenida Siempre Viva |               2 | 2023-01-01     | 2024-01-01         |          50000000
+(1 row)
+
+postgres=# SELECT * FROM compañia 
+WHERE comnit = '899999999-5';
+   comnit    | comnombre  | comañofun |   comreplegal    
+-------------+------------+-----------+------------------
+ 899999999-5 | compañía 1 |      2002 | legal compañía 1
+(1 row)
+
+postgres=# SELECT * FROM aseguramientos, automotores
+postgres-# WHERE aseplaca = autoplaca AND asevalorasegurado IN(SELECT MAX(asevalorasegurado) FROM aseguramientos);
+
+ asecodigo | asefechainicio | asefechaexpiracion | asevalorasegurado | aseestado | asecosto | aseplaca | autoplaca | automarca | autotipo | automodelo | autopasajeros | autocilindraje | autonumchasis 
+-----------+----------------+--------------------+-------------------+-----------+----------+----------+-----------+-----------+----------+------------+---------------+----------------+---------------
+         5 | 2023-05-20     | 2024-05-20         |          70000000 | Activo    |  1400000 | MNO345   | MNO345    | mazda     |        5 |       2022 |             4 |           1600 | DEF987654321
+(1 row)
+
+postgres=# SELECT autoplaca, automarca, automodelo, autocilindraje, asefechainicio, asefechaexpiracion, aseestado
+postgres-# FROM automotores, aseguramientos
+postgres-# WHERE autoplaca = aseplaca AND autotipo = 1;
+
+ autoplaca | automarca | automodelo | autocilindraje | asefechainicio | asefechaexpiracion | aseestado 
+-----------+-----------+------------+----------------+----------------+--------------------+-----------
+ QGX767    | toyota    |       2020 |           2000 | 2023-01-01     | 2024-01-01         | Activo
+(1 row)
+
+postgres=# CREATE OR REPLACE FUNCTION insertar_profesor(
+postgres(# p_doc_prof VARCHAR,
+postgres(# p_nom_prof VARCHAR,
+postgres(# p_ape_prof VARCHAR,
+postgres(# p_cate_prof INT,
+postgres(# p_sal_prof INT
+postgres(# )
+postgres-# RETURNS TABLE(
+postgres(# doc_prof VARCHAR,
+postgres(# nom_prof VARCHAR,
+postgres(# ape_prof VARCHAR,
+postgres(# cate_prof INT,
+postgres(# sal_prof INT
+postgres(# ) AS $$
+postgres$# BEGIN
+postgres$# INSERT INTO profesores (doc_prof, nom_prof, ape_prof, cate_prof, sal_prof)
+postgres$# VALUES (p_doc_prof, p_nom_prof, p_ape_prof, p_cate_prof, p_sal_prof);
+postgres$# RETURN QUERY SELECT profesores.doc_prof, profesores.nom_prof, profesores.ape_prof, profesores.cate_prof, profesores.sal_prof
+postgres$# FROM profesores;  
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM insertar_profesor('12345678901', 'Carlos', 'Gómez', 1, 3000);
+
+postgres=# SELECT * FROM insertar_profesor('0987654321', 'Daniel', 'Guzmán', 1, 5000);
+  doc_prof   | nom_prof | ape_prof  | cate_prof | sal_prof 
+-------------+----------+-----------+-----------+----------
+ CC123       | Julio    | Castaño   |         2 |  3000000
+ CC456       | Miguel   | Mondragon |         1 |  2000000
+ CC789       | Yenifer  | Orozco    |         1 |  4000000
+ CC098       | Angel    | Lopez     |         1 |  1000000
+ CC765       | Nicolas  | Moreno    |         1 |   500000
+ CC432       | Marcela  | Saavedra  |         2 |   350000
+ 12345678901 | Carlos   | Gómez     |         1 |     3000
+ 0987654321  | Daniel   | Guzmán    |         1 |     5000
+(8 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION insertar_cursos(
+postgres(# c_cod_curs INT,
+postgres(# c_nom_cur VARCHAR,
+postgres(# c_horas_cur INT,
+postgres(# c_valor_cur INT
+postgres(# )
+postgres-# RETURNS TABLE(
+postgres(# cod_curs INT,
+postgres(# nom_curs VARCHAR,
+postgres(# horas_cur INT,
+postgres(# valor_cur INT
+postgres(# ) AS $$
+postgres$# BEGIN
+postgres$# INSERT INTO cursos (cod_curs, nom_curs, horas_cur, valor_cur)
+postgres$# VALUES (c_cod_curs, c_nom_cur, c_horas_cur, c_valor_cur);
+postgres$# RETURN QUERY SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+postgres$# FROM cursos;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM insertar_cursos(8, 'ciencias', 50, 100000);
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        6 | Lógica de Programación                       |        20 |    100000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        8 | ciencias                                     |        50 |    100000
+(7 rows)
+
+postgres=# SELECT * FROM insertar_cursos(7, 'JS', 50, 100000);
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        6 | Lógica de Programación                       |        20 |    100000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        8 | ciencias                                     |        50 |    100000
+        7 | JS                                           |        50 |    100000
+(8 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION insertar_estudiantes(
+postgres(# e_doc_est VARCHAR,
+postgres(# e_nom_est VARCHAR,
+postgres(# e_ape_est VARCHAR,
+postgres(# e_edad_est INT
+postgres(# )
+postgres-# RETURNS TABLE(
+postgres(# doc_est VARCHAR,
+postgres(# nom_est VARCHAR,
+postgres(# ape_est VARCHAR,
+postgres(# edad_est INT
+postgres(# ) AS $$
+postgres$# BEGIN 
+postgres$# INSERT INTO estudiantes (doc_est, nom_est, ape_est, edad_est)
+postgres$# VALUES (e_doc_est, e_nom_est, e_ape_est, e_edad_est);
+postgres$# RETURN QUERY SELECT estudiantes.doc_est, estudiantes.nom_est, estudiantes.ape_est, estudiantes.edad_est
+postgres$# FROM estudiantes;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT 
+postgres-# * FROM insertar_estudiantes ('123X', 'Martin', 'Tabarez', 15);
+ doc_est | nom_est |     ape_est     | edad_est 
+---------+---------+-----------------+----------
+ CC123   | Laura   | Barona Saavedra |       25
+ CC456   | Mariana | Gomez           |       28
+ CC789   | Sara    | Lopez           |       27
+ CC098   | Jose    | Daza            |       24
+ CC765   | Jhon    | Arias           |       25
+ CC432   | Jason   | Martinez        |       30
+ 123X    | Martin  | Tabarez         |       15
+(7 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION insertar_estudiantesxcursos(
+postgres(# ec_cod_cur_estcur INT,
+postgres(# ec_doc_est_estcur VARCHAR,
+postgres(# ec_fec_ini_estcur DATE
+postgres(# )
+postgres-# RETURNS TABLE(
+postgres(# cod_cur_estcur INT,
+postgres(# doc_est_estcur VARCHAR,
+postgres(# fec_ini_estcur DATE
+postgres(# ) AS $$
+postgres$# BEGIN
+postgres$# INSERT INTO estudiantesxcursos (cod_cur_estcur, doc_est_estcur, fec_ini_estcur)
+postgres$# VALUES (ec_cod_cur_estcur, ec_doc_est_estcur, ec_fec_ini_estcur);
+postgres$# RETURN QUERY SELECT estudiantesxcursos.cod_cur_estcur, estudiantesxcursos.doc_est_estcur, estudiantesxcursos.fec_ini_estcur
+postgres$# FROM estudiantesxcursos;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM insertar_estudiantesxcursos (1, 'CC123', '20224-08-12');
+ cod_cur_estcur | doc_est_estcur | fec_ini_estcur 
+----------------+----------------+----------------
+              1 | CC123          | 2024-08-02
+              2 | CC456          | 2024-08-06
+              3 | CC789          | 2024-08-06
+              4 | CC098          | 2024-08-10
+              5 | CC765          | 2024-09-04
+              6 | CC432          | 2024-03-25
+              1 | CC123          | 20224-08-12
+(7 rows)
+
+postgres=# SELECT * FROM insertar_estudiantesxcursos (2, 'CC456', '2024-08-12');
+ cod_cur_estcur | doc_est_estcur | fec_ini_estcur 
+----------------+----------------+----------------
+              1 | CC123          | 2024-08-02
+              2 | CC456          | 2024-08-06
+              3 | CC789          | 2024-08-06
+              4 | CC098          | 2024-08-10
+              5 | CC765          | 2024-09-04
+              6 | CC432          | 2024-03-25
+              1 | CC123          | 20224-08-12
+              2 | CC456          | 2024-08-12
+(8 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION mostrar_salarios_por_categoria()
+postgres-# RETURNS TABLE(
+postgres(# doc_prof VARCHAR,
+postgres(# nom_prof VARCHAR,
+postgres(# ape_prof VARCHAR,
+postgres(# cate_prof INT,
+postgres(# sal_prof INT
+postgres(# ) AS $$
+postgres$# BEGIN
+postgres$# RETURN QUERY
+postgres$# SELECT profesores.doc_prof, profesores.nom_prof, profesores.ape_prof, profesores.cate_prof, profesores.sal_prof
+postgres$# FROM profesores
+postgres$# ORDER BY profesores.cate_prof;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM mostrar_salarios_por_categoria();
+  doc_prof   | nom_prof | ape_prof  | cate_prof | sal_prof 
+-------------+----------+-----------+-----------+----------
+ 0987654321  | Daniel   | Guzmán    |         1 |     5000
+ CC456       | Miguel   | Mondragon |         1 |  2000000
+ CC789       | Yenifer  | Orozco    |         1 |  4000000
+ CC098       | Angel    | Lopez     |         1 |  1000000
+ CC765       | Nicolas  | Moreno    |         1 |   500000
+ 12345678901 | Carlos   | Gómez     |         1 |     3000
+ CC123       | Julio    | Castaño   |         2 |  3000000
+ CC432       | Marcela  | Saavedra  |         2 |   350000
+(8 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION mostrar_cursos_valor_mayor_500k()
+postgres-# RETURNS TABLE(
+postgres=# cod_curs INT,
+postgres(# nom_curs VARCHAR,
+postgres(# horas_cur INT,
+postgres(# valor_cur INT
+postgres(# ) AS $$
+postgres$# BEGIN
+postgres$# RETURN QUERY
+postgres$# SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+postgres$# FROM cursos
+postgres$# WHERE cursos.valor_cur > 500000;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM mostrar_cursos_valor_mayor_500k();
+ cod_curs |            nom_curs            | horas_cur | valor_cur 
+----------+--------------------------------+-----------+-----------
+        2 | Introducción a la Programación |        60 |   2000000
+        3 | Emprendimiento                 |        40 |   2000000
+        1 | Gestión Bases de Datos         |        80 |   1500000
+(3 rows)
+
+postgres=# CREATE OR REPLACE FUNCTION mostrar_cursos_orden_ascendente_por_valor()
+postgres-# RETURNS TABLE(
+postgres=# cod_curs INT,
+postgres=# nom_curs VARCHAR,
+postgres=# horas_cur INT,
+postgres=#  valor_cur INT
+postgres=# ) AS $$
+postgres$# BEGIN
+postgres$# RETURN QUERY
+postgres$# SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+postgres$# FROM cursos
+postgres$# ORDER BY cursos.valor_cur ASC;
+postgres$# END;
+postgres$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+postgres=# SELECT * FROM mostrar_cursos_orden_ascendente_por_valor();
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        7 | JS                                           |        50 |    100000
+        6 | Lógica de Programación                       |        20 |    100000
+        8 | ciencias                                     |        50 |    100000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+(8 rows)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
