@@ -91,3 +91,35 @@ html{
     margin-top: -10px;
     letter-spacing: 2px;
 }
+
+.index .content-section .info .networks a{
+    display: inline-block;
+    text-decoration: none;
+    background-color: #000;
+    color: #940253;
+    border: 1px solid #940253;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0 5px;
+    transition: .3s;
+}
+
+.index .content-section .info .networks a:hover{
+    box-shadow: 0 0 20px #fff;
+}
+
+.index .content-section .photo{
+    position: relative;
+}
+
+.index .content-section .photo img{
+    max-width: 200px;
+    border-radius: 50%;
+    border: 5px solid #940253;
+    position: absolute;
+    left: 50%;
+    top: -100px;
+    transform: translate(-50%);
+}
