@@ -1,4 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&family=Yellowtail&display=swap');
+
+*{
+    font-family: "Titillium Web";
+    margin: 0;
+    padding: 0;
+}
+
 img {
   border-radius: 50%;
 }
+
+header div .navbar-brand{
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+nav div ul li{
+  font-size: 1.2rem;
+}
+
+header .social-icons a{
+  font-size: 1.5rem;
+  padding: 5px;
+  color: gray;
+}
+
+header .social-icons a:hover{
+  font-size: 1.5rem;
+  padding: 5px;
+  color: black;
+}
+
+footer .container a{
+  color: white;
+}
+
+footer .container a:hover{
+  color: gray;
+}
+
 
