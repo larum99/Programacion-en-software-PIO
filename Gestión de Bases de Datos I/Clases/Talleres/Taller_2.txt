@@ -364,33 +364,23 @@ postgres-# WHERE (sal_prof >= 500000) AND (sal_prof < 700000);
  CC765    | Nicolas  | Moreno   |         1 |   500000
 (1 row)
 
-postgres=# SELECT id_ped, id_cli_ped, fec_ped, tit_art FROM articulos, pedidos, articulosxpedidos 
-postgres-# WHERE id_art_artped = id_art;
+postgres=# SELECT id_ped, id_cli_ped, fec_ped, val_ped, tit_art
+postgres-# FROM pedidos
+postgres-# INNER JOIN articulos
+postgres-# ON pedidos.id_ped = articulos.id_art;
 
 
- id_ped | id_cli_ped |  fec_ped   |  tit_art   
---------+------------+------------+------------
-      1 | CC135      | 2023-05-15 | computador
-      2 | CC798      | 2023-10-17 | computador
-      3 | CC864      | 2023-12-23 | computador
-      4 | CC246      | 2024-01-10 | computador
-      5 | CC806      | 2024-03-25 | computador
-      6 | CC423      | 2024-02-12 | computador
-      1 | CC135      | 2023-05-15 | celular
-      2 | CC798      | 2023-10-17 | celular
-      3 | CC864      | 2023-12-23 | celular
-      4 | CC246      | 2024-01-10 | celular
-      5 | CC806      | 2024-03-25 | celular
-      6 | CC423      | 2024-02-12 | celular
-      1 | CC135      | 2023-05-15 | iPad
-      2 | CC798      | 2023-10-17 | iPad
-      3 | CC864      | 2023-12-23 | iPad
-      4 | CC246      | 2024-01-10 | iPad
-      5 | CC806      | 2024-03-25 | iPad
-      6 | CC423      | 2024-02-12 | iPad
-      1 | CC135      | 2023-05-15 | airpods
-      2 | CC798      | 2023-10-17 | airpods
-:
+
+ id_ped | id_cli_ped |  fec_ped   | val_ped |  tit_art   
+--------+------------+------------+---------+------------
+      1 | CC135      | 2023-05-15 | 3000000 | computador
+      2 | CC798      | 2023-10-17 | 5000000 | celular
+      3 | CC864      | 2023-12-23 | 4000000 | iPad
+      4 | CC246      | 2024-01-10 | 2000000 | airpods
+      5 | CC806      | 2024-03-25 | 2000000 | tablet
+      6 | CC423      | 2024-02-12 | 2000000 | tablet
+(6 rows)
+
 
 postgres=# SELECT nom_cli FROM clientes
 postgres-# WHERE mes_cum_cli = 'marzo';
@@ -404,6 +394,13 @@ postgres=# SELECT id_ped, val_ped, dir_cli, nom_cli
 postgres-# FROM pedidos, clientes 
 postgres-# WHERE id_cli = id_cli_ped AND id_ped = 1;
 
+otra manera de hacerlo:
+
+postgres=# SELECT id_ped, val_ped, dir_cli, nom_cli
+postgres-# FROM pedidos
+postgres-# INNER JOIN clientes
+postgres-# ON pedidos.id_cli_ped = clientes.id_cli
+postgres-# WHERE id_ped = 1;
 
  id_ped | val_ped |                                  dir_cli                                   |  nom_cli  
 --------+---------+----------------------------------------------------------------------------+-----------
@@ -420,10 +417,22 @@ postgres-# AND id_cli = id_cli_ped;
  Rosa    | 2023-10-17 | 5000000
 (1 row)
 
-(otra manera de hacerlo)
+otra manera de hacerlo:
 postgres=# SELECT nom_cli, fec_ped, val_ped 
 postgres-# FROM pedidos, clientes
 postgres-# WHERE id_cli = id_cli_ped AND val_ped IN(SELECT MAX(val_ped) FROM pedidos);
+
+otra manera de hacerlo:
+
+postgres=# SELECT nom_cli, fec_ped, val_ped
+postgres-# FROM pedidos
+postgres-# INNER JOIN clientes
+postgres-# ON pedidos.id_cli_ped = clientes.id_cli
+postgres-# WHERE val_ped IN (SELECT MAX(val_ped) FROM pedidos);
+ nom_cli |  fec_ped   | val_ped 
+---------+------------+---------
+ Rosa    | 2023-10-17 | 5000000
+(1 row)
 
 postgres=# SELECT * FROM articulos
 postgres-# ORDER BY aut_art;
@@ -449,6 +458,22 @@ postgres-# WHERE id_art = id_art_artped AND id_ped = id_ped_artped;
       5 | 2000000 | tablet     |              3
       6 | 2000000 | tablet     |              1
 (6 rows)
+
+otra manera: 
+postgres=# SELECT id_ped, val_ped, tit_art, can_art_artped
+postgres-# FROM pedidos
+postgres-# INNER JOIN articulosxpedidos ON pedidos.id_ped = articulosxpedidos.id_ped_artped
+postgres-# INNER JOIN articulos ON articulos.id_art = articulosxpedidos.id_art_artped;
+ id_ped | val_ped |  tit_art   | can_art_artped 
+--------+---------+------------+----------------
+      1 | 3000000 | computador |              3
+      2 | 5000000 | celular    |              4
+      3 | 4000000 | iPad       |              1
+      4 | 2000000 | airpods    |              2
+      5 | 2000000 | tablet     |              3
+      6 | 2000000 | tablet     |              1
+(6 rows)
+
 
 postgres=# SELECT * FROM clientes
 postgres-# ORDER BY ape_cli DESC;
@@ -484,6 +509,16 @@ postgres-# WHERE id_ped = id_ped_artped AND id_cli_ped = id_cli AND id_art_artpe
  Rosa    | Calle Insurgentes 456, Int. 5, Colonia Roma Norte, C.P. 06700, Alcaldía Cuauhtémoc |      2 |              4
 (1 row)
 
+otra manera:
+
+postgres=# SELECT nom_cli, dir_cli, id_ped, can_art_artped
+postgres-# FROM pedidos
+postgres-# INNER JOIN clientes
+postgres-# ON pedidos.id_cli_ped = clientes.id_cli
+postgres-# INNER JOIN articulosxpedidos ON pedidos.id_ped = articulosxpedidos.id_ped_artped
+postgres-# WHERE articulosxpedidos.id_art_artped = 2;
+
+
 postgres=# SELECT * FROM compañia
 postgres-# WHERE comañofun > 2001 AND comañofun < 2008;
    comnit    | comnombre  | comañofun |   comreplegal    
@@ -497,6 +532,14 @@ postgres=# SELECT autoplaca, automodelo, automarca, autopasajeros, autocilindraj
 postgres-# FROM aseguramientos, automotores, tiposautomotores
 postgres-# WHERE autoplaca = aseplaca AND asefechaexpiracion <= '20231031' AND asefechaexpiracion >= '20231001';
 
+otra manera:
+
+postgres=# SELECT autoplaca, automodelo, automarca, autopasajeros, autocilindraje, asevalorasegurado, asecosto
+postgres-# FROM aseguramientos
+postgres-# INNER JOIN automotores ON aseguramientos.aseplaca = automotores.autoplaca
+postgres-# INNER JOIN tiposautomotores ON automotores.autotipo = tiposautomotores.auttipo
+postgres-# WHERE asefechaexpiracion <= '2023-10-31' 
+postgres-# AND asefechaexpiracion >= '2023-10-01';
 
  autoplaca | automodelo | automarca | autopasajeros | autocilindraje | asevalorasegurado | asecosto 
 -----------+------------+-----------+---------------+----------------+-------------------+----------
@@ -508,6 +551,13 @@ postgres=# SELECT inciplaca, incifecha, incilugar, incicodigo, asefechainicio, a
 postgres-# FROM aseguramientos, incidentes
 postgres-# WHERE inciplaca = aseplaca AND incifecha = '2022-09-30';
 
+otra manera:
+
+postgres=# SELECT inciplaca, incifecha, incilugar, incicodigo, asefechainicio, asecosto, aseestado, asevalorasegurado
+postgres-# FROM aseguramientos
+postgres-# INNER JOIN incidentes ON aseguramientos.aseplaca = incidentes.inciplaca
+postgres-# WHERE incidentes.incifecha = '2022-09-30';
+
  inciplaca | incifecha | incilugar | incicodigo | asefechainicio | asecosto | aseestado | asevalorasegurado 
 -----------+-----------+-----------+------------+----------------+----------+-----------+-------------------
 (0 rows)
@@ -516,10 +566,19 @@ postgres=# SELECT incicantheridos, autoplaca, incilugar, incifecha, asefechainic
 postgres-# FROM incidentes, aseguramientos, automotores
 postgres-# WHERE inciplaca = aseplaca AND autoplaca = inciplaca AND incicantheridos = 1;
 
+otra manera:
+
+postgres=# SELECT incicantheridos, automotores.autoplaca, incilugar, incifecha, asefechainicio, aseestado, asecosto, asevalorasegurado
+postgres-# FROM incidentes
+postgres-# INNER JOIN aseguramientos ON incidentes.inciplaca = aseguramientos.aseplaca
+postgres-# INNER JOIN automotores ON automotores.autoplaca = incidentes.inciplaca
+postgres-# WHERE incicantheridos = 1;
+
  incicantheridos | autoplaca |     incilugar      | incifecha  | asefechainicio | aseestado | asecosto | asevalorasegurado 
 -----------------+-----------+--------------------+------------+----------------+-----------+----------+-------------------
                1 | DEF456    | Calle Falsa 123    | 2023-08-22 | 2022-07-15     | Expirado  |  1100000 |          45000000
                1 | PQR678    | Avenida Las Palmas | 2023-04-25 | 2023-09-01     | Activo    |  1250000 |          48000000
+(2 rows)
 
 postgres=# SELECT * FROM aseguramientos
 postgres-# WHERE asecosto IN(SELECT MAX(asecosto) FROM aseguramientos);
@@ -545,6 +604,13 @@ postgres=# SELECT inciplaca, incifecha, incilugar, incicantheridos, asefechainic
 postgres-# FROM incidentes, aseguramientos
 postgres-# WHERE inciplaca = aseplaca AND inciplaca = 'QGX767';
 
+otra manera:
+
+postgres=# SELECT inciplaca, incifecha, incilugar, incicantheridos, asefechainicio, asefechaexpiracion, asevalorasegurado
+postgres-#  FROM incidentes
+INNER JOIN aseguramientos ON incidentes.inciplaca = aseguramientos.aseplaca
+WHERE incidentes.inciplaca = 'QGX767';
+
  inciplaca | incifecha  |      incilugar       | incicantheridos | asefechainicio | asefechaexpiracion | asevalorasegurado 
 -----------+------------+----------------------+-----------------+----------------+--------------------+-------------------
  QGX767    | 2023-09-15 | Avenida Siempre Viva |               2 | 2023-01-01     | 2024-01-01         |          50000000
@@ -568,6 +634,13 @@ postgres-# WHERE aseplaca = autoplaca AND asevalorasegurado IN(SELECT MAX(aseval
 postgres=# SELECT autoplaca, automarca, automodelo, autocilindraje, asefechainicio, asefechaexpiracion, aseestado
 postgres-# FROM automotores, aseguramientos
 postgres-# WHERE autoplaca = aseplaca AND autotipo = 1;
+
+otra manera: 
+
+postgres=#  SELECT autoplaca, automarca, automodelo, autocilindraje, asefechainicio, asefechaexpiracion, aseestado
+postgres-# FROM automotores
+postgres-# INNER JOIN aseguramientos ON automotores.autoplaca = aseguramientos.aseplaca
+postgres-# WHERE automotores.autotipo = 1;
 
  autoplaca | automarca | automodelo | autocilindraje | asefechainicio | asefechaexpiracion | aseestado 
 -----------+-----------+------------+----------------+----------------+--------------------+-----------
