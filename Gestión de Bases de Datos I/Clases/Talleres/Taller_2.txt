@@ -1,0 +1,938 @@
+laboratoriosql=# CREATE DATABASE laboratorioSQL;
+CREATE DATABASE
+
+laboratoriosql=# \c laboratoriosql
+You are now connected to database "laboratoriosql" as user "laboratoriosql".
+laboratoriosql=# 
+
+laboratoriosql=# CREATE TABLE profesores(
+laboratoriosql(# doc_prof varchar(11) not null,
+laboratoriosql(# nom_prof varchar(30) not null,
+laboratoriosql(# ape_prof varchar(30) not null,
+laboratoriosql(# cate_prof int not null,
+laboratoriosql(# sal_prof int not null,
+laboratoriosql(# primary key(doc_prof)
+laboratoriosql(# );
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE cursos(
+laboratoriosql(# cod_curs SERIAL PRIMARY KEY,
+laboratoriosql(# nom_curs varchar(100) NOT NULL,
+laboratoriosql(# horas_cur int NOT NULL,
+laboratoriosql(# valor_cur int NOT NULL);
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE estudiantes(
+laboratoriosql(# doc_est varchar(11) NOT NULL,
+laboratoriosql(# nom_est varchar(30) NOT NULL,
+laboratoriosql(# ape_est varchar(30) NOT NULL,
+laboratoriosql(# edad_est INT NOT NULL,
+laboratoriosql(# PRIMARY KEY(doc_est)
+laboratoriosql(# );
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE estudiantesxcursos(
+laboratoriosql(# cod_cur_estcur int not null,
+laboratoriosql(# doc_est_estcur varchar(30) not null,
+laboratoriosql(# fec_ini_estcur date not null,
+laboratoriosql(# constraint fk_est_cur foreign key (cod_cur_estcur) references cursos(cod_curs),
+laboratoriosql(# constraint fk_est_est foreign key (doc_est_estcur) references estudiantes(doc_est));
+CREATE TABLE
+
+Nota: la tabla estudiantes tiene doc_est de tipo varchar y estudiantesxcurso tiene doc_est_estcur de tipo int. Además la tabla estudiantexcurso le da longitud a int, entonces no es claro si los atributos de las tablas deben ser de tipo int o varchar. 
+
+laboratoriosql=# CREATE TABLE clientes(
+laboratoriosql(# id_cli varchar(11) not null,
+laboratoriosql(# nom_cli varchar(30) not null,
+laboratoriosql(# ape_cli varchar(30) not null,
+laboratoriosql(# dir_cli varchar(100) not null,
+laboratoriosql(# dep_cli varchar(20) not null,
+laboratoriosql(# mes_cum_cli varchar(10) not null,
+laboratoriosql(# primary key(id_cli)
+laboratoriosql(# );
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE articulos(
+laboratoriosql(# id_art serial not null,
+laboratoriosql(# tit_art varchar(100) not null,
+laboratoriosql(# aut_art varchar(100) not null,
+laboratoriosql(# edi_art varchar(300) not null,
+laboratoriosql(# prec_art int not null,
+laboratoriosql(# primary key(id_art));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE pedidos(
+laboratoriosql(# id_ped serial not null,
+laboratoriosql(# id_cli_ped varchar(22) not null,
+laboratoriosql(# fec_ped date not null,
+laboratoriosql(# val_ped int not null,
+laboratoriosql(# constraint fk_cli_ped foreign key (id_cli_ped) references clientes(id_cli),
+laboratoriosql(# primary key(id_ped)
+);
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE articulosxpedidos(
+laboratoriosql(# id_ped_artped int not null,
+laboratoriosql(# id_art_artped int not null,
+laboratoriosql(# can_art_artped int not null,
+laboratoriosql(# val_ven_art_artped int not null,
+laboratoriosql(# constraint fk_ped_art foreign key(id_ped_artped) references pedidos(id_ped),
+laboratoriosql(# constraint fk_art_art foreign key (id_art_artped) references articulos(id_art));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE compañia(
+laboratoriosql(# comnit varchar(11) not null,
+laboratoriosql(# comnombre varchar(30) not null,
+laboratoriosql(# comañofun int not null,
+laboratoriosql(# comreplegal varchar(100) not null,
+laboratoriosql(# primary key(comnit));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE tiposAutomotores(
+laboratoriosql(# auttipo int not null,
+laboratoriosql(# primary key(auttipo));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE automotores(
+laboratoriosql(# autoplaca varchar(6) not null,
+laboratoriosql(# automarca varchar(30) not null,
+laboratoriosql(# autotipo int not null, 
+laboratoriosql(# automodelo int not null,
+laboratoriosql(# autopasajeros int not null,
+laboratoriosql(# autocilindraje int not null,
+laboratoriosql(# autonumchasis varchar(20) not null,
+laboratoriosql(# constraint fk_aut_aut foreign key (autotipo) references tiposautomotores(auttipo),
+laboratoriosql(# primary key(autoplaca));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE aseguramientos(
+laboratoriosql(# asecodigo serial not null,
+laboratoriosql(# asefechainicio date not null,
+laboratoriosql(# asefechaexpiracion date not null,
+laboratoriosql(# asevalorasegurado int not null,
+laboratoriosql(# aseestado varchar(30) not null,
+laboratoriosql(# asecosto int not null,
+laboratoriosql(# aseplaca varchar(6) not null,
+laboratoriosql(# constraint fk_aut_ase foreign key (aseplaca) references automotores(autoplaca),
+laboratoriosql(# primary key(asecodigo));
+CREATE TABLE
+
+laboratoriosql=# CREATE TABLE incidentes(
+laboratoriosql(# incicodigo serial not null,
+laboratoriosql(# incifecha date not null,
+laboratoriosql(# inciplaca varchar(6) not null,
+laboratoriosql(# incilugar varchar(40) not null,
+laboratoriosql(# inciantheridos int not null,
+laboratoriosql(# incicanfatalidades int not null,
+laboratoriosql(# incicanautosinvolucrados int not null,
+laboratoriosql(# constraint fk_aut_inci foreign key (inciplaca) references automotores(autoplaca),
+laboratoriosql(# primary key(incicodigo));
+CREATE TABLE
+
+laboratoriosql=# INSERT INTO profesores (doc_prof, nom_prof, ape_prof, cate_prof, sal_prof) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('CC123', 'Julio', 'Castaño', 2, 3000000), 
+laboratoriosql-# ('CC456', 'Miguel', 'Mondragon', 1, 2000000), 
+laboratoriosql-# ('CC789', 'Yenifer', 'Orozco', 1, 4000000), 
+laboratoriosql-# ('CC098', 'Angel', 'Lopez', 1, 1000000), 
+laboratoriosql-# ('CC765', 'Nicolas', 'Moreno', 1, 500000), 
+laboratoriosql-# ('CC432', 'Marcela', 'Saavedra', 2, 350000);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO cursos (nom_curs, horas_cur, valor_cur) 
+laboratoriosql-# VALUES ('Gestión Bases de Datos', 2, 1500000), 
+laboratoriosql-# ('Introducción a la Programación', 3, 2000000),
+laboratoriosql-# ('Emprendimiento', 2, 2000000), 
+laboratoriosql-# ('Seguridad y Salud en el Trabajo', 2, 500000), 
+laboratoriosql-# ('Introducción a los Lenguajes de Programación', 1, 250000), 
+laboratoriosql-# ('Lógica de Programación', 1, 100000);
+INSERT 0 6
+
+Nota: no es necesario incluir el código de curso porque es de tipo serial y se asignará e incrementará automáticamente.
+
+laboratoriosql=# INSERT INTO estudiantes(doc_est, nom_est, ape_est, edad_est) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('CC123', 'Laura', 'Barona Saavedra', 25), 
+laboratoriosql-# ('CC456', 'Mariana', 'Gomez', 28), 
+laboratoriosql-# ('CC789', 'Sara', 'Lopez', 27), 
+laboratoriosql-# ('CC098', 'Jose', 'Daza', 24), 
+laboratoriosql-# ('CC765', 'Jhon', 'Arias', 25), 
+laboratoriosql-# ('CC432', 'Jason', 'Martinez', 30);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO estudiantesxcursos(cod_cur_estcur, doc_est_estcur, fec_ini_estcur) 
+laboratoriosql-# VALUES 
+laboratoriosql-# (1, 'CC123', '2024-08-02');
+INSERT 0 1
+
+Nota: como son claves foráneas no deben sobreescribirse, deben tener los mismos datos de la clave primaria.
+
+laboratoriosql=# INSERT INTO estudiantesxcursos(cod_cur_estcur, doc_est_estcur, fec_ini_estcur) 
+laboratoriosql-# VALUES 
+laboratoriosql-# (2, 'CC456', '2024-08-06'), 
+laboratoriosql-# (3, 'CC789', '2024-08-06'), 
+laboratoriosql-# (4, 'CC098', '2024-08-10'), 
+laboratoriosql-# (5, 'CC765', '2024-09-04'), 
+laboratoriosql-# (6, 'CC432', '2024-03-25');
+INSERT 0 5
+
+laboratoriosql=# INSERT INTO clientes(id_cli, nom_cli, ape_cli, dir_cli, dep_cli, mes_cum_cli) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('CC135', 'Margarita', 'Ramirez', 'Calle Reforma 123, Int. 2, Colonia Juárez, C.P. 06600, Alcaldía Cuauhtémoc', 'Valle', 'Diciembre'), 
+laboratoriosql-# ('CC798', 'Rosa', 'Gonzalez', 'Calle Insurgentes 456, Int. 5, Colonia Roma Norte, C.P. 06700, Alcaldía Cuauhtémoc', 'Valle', 'Enero'), 
+laboratoriosql-# ('CC864', 'Elena', 'Galeano', 'Calle Hidalgo 789, Int. 10, Colonia Centro, C.P. 06000, Alcaldía Cuauhtémoc', 'Valle', 'Noviembre'), 
+laboratoriosql-# ('CC246', 'Gabriela', 'Murillo', 'Calle Benito Juárez 234, Int. 3, Colonia Del Valle, C.P. 03100, Alcaldía Benito Juárez', 'Valle', 'Enero'), 
+laboratoriosql-# ('CC806', 'Vilma', 'Murgueitio', 'Calle Álvaro Obregón 678, Int. 8, Colonia Condesa, C.P. 06140, Alcaldía Cuauhtémoc', 'Valle', 'Agosto'), 
+laboratoriosql-# ('CC423', 'Sebastián', 'Gomez', 'Calle Reforma 123, Int. 2, Colonia Juárez, C.P. 06600, Alcaldía Cuauhtémoc', 'Valle', 'Diciembre');
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO articulos(tit_art, aut_art, edi_art, prec_art) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('computador', 'asus', 'X441U', 2300000), 
+laboratoriosql-# ('celular', 'samsung', 'A31', 700000), 
+laboratoriosql-# ('iPad', 'Apple', 'Pro', 5000000), 
+laboratoriosql-# ('airpods', 'apple', 'Pro 2', 2999000), ('tablet', 'lenovo', 'M10', 600000), 
+laboratoriosql-# ('tablet', 'huawei', 'MatePad', 830000);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO pedidos(id_cli_ped, fec_ped, val_ped) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('CC135', '2023-05-15', 3000000), 
+laboratoriosql-# ('CC798', '2023-10-17', 5000000), 
+laboratoriosql-# ('CC864', '2023-12-23', 4000000), 
+laboratoriosql-# ('CC246', '2024-01-10', 2000000), 
+laboratoriosql-# ('CC806', '2024-03-25', 2000000), 
+laboratoriosql-# ('CC423', '2024-02-12', 2000000);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO articulosxpedidos(id_ped_artped, id_art_artped, can_art_artped, val_ven_art_artped) 
+laboratoriosql-# VALUES 
+laboratoriosql-# (1, 1, 3, 1500000), 
+laboratoriosql-# (2, 2, 4, 200000), 
+laboratoriosql-# (3, 3, 1, 1000000), 
+laboratoriosql-# (4, 4, 2, 300000), 
+laboratoriosql-# (5, 5, 3, 900000), 
+laboratoriosql-# (6, 6, 1, 4000000);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO compañia(comnit, comnombre, comañofun, comreplegal) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('899999999-5', 'compañía 1', 2002, 'legal compañía 1'), 
+laboratoriosql-# ('000000001-1', 'compañía 2', 2001, 'legal compañía 2'), 
+laboratoriosql-# ('000000002-1', 'compañía 3', 2003, 'legal compañía 3'), 
+laboratoriosql-# ('000000003-1', 'compañía 4', 1999, 'legal compañía 4'), 
+laboratoriosql-# ('000000004-1', 'compañía 5', 2004, 'legal compañía 5'), 
+laboratoriosql-# ('000000005-1', 'compañía 6', 2000, 'legal compañía 6');
+INSERT 0 6
+
+INSERT INTO tiposautomotores(auttipo) 
+laboratoriosql-# VALUES 
+laboratoriosql-# (1), 
+laboratoriosql-# (2), 
+laboratoriosql-# (3), 
+laboratoriosql-# (4), 
+laboratoriosql-# (5), 
+laboratoriosql-# (6);
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO automotores (autoplaca, automarca, autotipo, automodelo, autopasajeros, autocilindraje, autonumchasis) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('QGX767', 'toyota', 1, 2020, 5, 2000, 'XYZ987654321'), 
+laboratoriosql-# ('DEF456', 'honda', 2, 2018, 4, 1800, 'ABC123987654'),
+laboratoriosql-# ('GHI789', 'chevrolet', 3, 2021, 5, 2500, 'LMN456123987'), 
+laboratoriosql-# ('JKL012', 'ford', 4, 2019, 2, 3000, 'OPQ789654123'), 
+laboratoriosql-# ('MNO345', 'mazda', 5, 2022, 4, 1600, 'DEF987654321'), 
+laboratoriosql-# ('PQR678', 'nissan', 6, 2020, 5, 2200, 'RST321987654');
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO aseguramientos (asecodigo, asefechainicio, asefechaexpiracion, asevalorasegurado, aseestado, asecosto, aseplaca) 
+laboratoriosql-# VALUES 
+laboratoriosql-# (1, '2023-01-01', '2024-01-01', 50000000, 'Activo', 1200000, 'QGX767'),
+laboratoriosql-# (2, '2022-07-15', '2023-07-15', 45000000, 'Expirado', 1100000, 'DEF456'),
+laboratoriosql-# (3, '2023-03-10', '2024-03-10', 60000000, 'Activo', 1300000, 'GHI789'),
+laboratoriosql-# (4, '2021-11-25', '2022-11-25', 55000000, 'Expirado', 1150000, 'JKL012'),
+laboratoriosql-# (5, '2023-05-20', '2024-05-20', 70000000, 'Activo', 1400000, 'MNO345'),
+laboratoriosql-# (6, '2023-09-01', '2024-09-01', 48000000, 'Activo', 1250000, 'PQR678');
+INSERT 0 6
+
+laboratoriosql=# INSERT INTO incidentes (incifecha, inciplaca, incilugar, incicantheridos, incicanfatalidades, incicanautosinvolucrados) 
+laboratoriosql-# VALUES 
+laboratoriosql-# ('2023-09-15', 'QGX767', 'Avenida Siempre Viva', 2, 0, 3),
+laboratoriosql-# ('2023-08-22', 'DEF456', 'Calle Falsa 123', 1, 1, 2),
+laboratoriosql-# ('2023-07-10', 'GHI789', 'Boulevard del Sol', 0, 0, 1),
+laboratoriosql-# ('2023-06-30', 'JKL012', 'Carretera Panamericana', 3, 1, 4),
+laboratoriosql-# ('2023-05-18', 'MNO345', 'Ruta Nacional 5', 0, 0, 2),
+laboratoriosql-# ('2023-04-25', 'PQR678', 'Avenida Las Palmas', 1, 0, 3);
+INSERT 0 6
+
+laboratoriosql=# SELECT sal_prof, cate_prof FROM profesores ORDER BY cate_prof;
+ sal_prof | cate_prof 
+----------+-----------
+  2000000 |         1
+  4000000 |         1
+  1000000 |         1
+   500000 |         1
+  3000000 |         2
+   350000 |         2
+(6 rows)
+
+laboratoriosql=# SELECT nom_curs, valor_cur FROM cursos WHERE valor_cur > 500000;
+            nom_curs            | valor_cur 
+--------------------------------+-----------
+ Gestión Bases de Datos         |   1500000
+ Introducción a la Programación |   2000000
+ Emprendimiento                 |   2000000
+(3 rows)
+
+laboratoriosql=# SELECT COUNT(edad_est) FROM estudiantes 
+WHERE edad_est > 22;
+ count 
+-------
+     6
+(1 row)
+
+laboratoriosql=# SELECT nom_est, edad_est FROM estudiantes
+laboratoriosql-# WHERE edad_est = (
+laboratoriosql(# SELECT
+laboratoriosql(# MIN(edad_est)
+laboratoriosql(# FROM
+laboratoriosql(# estudiantes);
+ nom_est | edad_est 
+---------+----------
+ Jose    |       24
+(1 row)
+
+laboratoriosql=# UPDATE cursos
+laboratoriosql-# SET horas_cur = 40
+laboratoriosql-# WHERE cod_curs = 1;
+UPDATE 1
+laboratoriosql=# UPDATE cursos
+laboratoriosql-# SET horas_cur = horas_cur * 10;
+UPDATE 6
+laboratoriosql=# UPDATE cursos
+laboratoriosql-# SET horas_cur = 40             
+laboratoriosql-# WHERE cod_curs = 1;
+UPDATE 1
+laboratoriosql=# UPDATE cursos
+laboratoriosql-# SET horas_cur = horas_cur * 2;
+UPDATE 6
+
+Nota: actualización de valores para realizar promedio
+
+laboratoriosql=# SELECT AVG(valor_cur) FROM cursos
+laboratoriosql-# WHERE horas_cur > 40;
+         avg          
+----------------------
+ 1750000.000000000000
+(1 row)
+
+laboratoriosql=# SELECT AVG(sal_prof) FROM profesores
+WHERE cate_prof = 1;
+         avg          
+----------------------
+ 1875000.000000000000
+(1 row)
+
+laboratoriosql=# SELECT * FROM cursos
+laboratoriosql-# ORDER BY valor_cur;
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        6 | Lógica de Programación                       |        20 |    100000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+(6 rows)
+
+
+Nota: ASC es opcional ya que la ordenación por defecto es ascendente.
+
+
+laboratoriosql=# SELECT nom_prof, ape_prof FROM profesores
+laboratoriosql-# WHERE sal_prof in(SELECT MIN(sal_prof) FROM profesores);
+ nom_prof | ape_prof 
+----------+----------
+ Marcela  | Saavedra
+(1 row)
+
+laboratoriosql=# SELECT * FROM profesores
+laboratoriosql-# WHERE (sal_prof >= 500000) AND (sal_prof < 700000);
+ doc_prof | nom_prof | ape_prof | cate_prof | sal_prof 
+----------+----------+----------+-----------+----------
+ CC765    | Nicolas  | Moreno   |         1 |   500000
+(1 row)
+
+laboratoriosql=# SELECT id_ped, id_cli_ped, fec_ped, val_ped, tit_art
+laboratoriosql-# FROM pedidos
+laboratoriosql-# INNER JOIN articulos
+laboratoriosql-# ON pedidos.id_ped = articulos.id_art;
+
+
+
+ id_ped | id_cli_ped |  fec_ped   | val_ped |  tit_art   
+--------+------------+------------+---------+------------
+      1 | CC135      | 2023-05-15 | 3000000 | computador
+      2 | CC798      | 2023-10-17 | 5000000 | celular
+      3 | CC864      | 2023-12-23 | 4000000 | iPad
+      4 | CC246      | 2024-01-10 | 2000000 | airpods
+      5 | CC806      | 2024-03-25 | 2000000 | tablet
+      6 | CC423      | 2024-02-12 | 2000000 | tablet
+(6 rows)
+
+
+laboratoriosql=# SELECT nom_cli FROM clientes
+laboratoriosql-# WHERE mes_cum_cli = 'marzo';
+ nom_cli 
+---------
+(0 rows)
+
+Nota: no hay clientes que cumplan en marzo.
+
+laboratoriosql=# SELECT id_ped, val_ped, dir_cli, nom_cli
+laboratoriosql-# FROM pedidos, clientes 
+laboratoriosql-# WHERE id_cli = id_cli_ped AND id_ped = 1;
+
+otra manera de hacerlo:
+
+laboratoriosql=# SELECT id_ped, val_ped, dir_cli, nom_cli
+laboratoriosql-# FROM pedidos
+laboratoriosql-# INNER JOIN clientes
+laboratoriosql-# ON pedidos.id_cli_ped = clientes.id_cli
+laboratoriosql-# WHERE id_ped = 1;
+
+ id_ped | val_ped |                                  dir_cli                                   |  nom_cli  
+--------+---------+----------------------------------------------------------------------------+-----------
+      1 | 3000000 | Calle Reforma 123, Int. 2, Colonia Juárez, C.P. 06600, Alcaldía Cuauhtémoc | Margarita
+(1 row)
+
+laboratoriosql=# SELECT nom_cli, fec_ped, val_ped 
+laboratoriosql-# FROM pedidos, clientes
+laboratoriosql-# WHERE val_ped = (
+laboratoriosql(# SELECT MAX(val_ped) FROM pedidos)
+laboratoriosql-# AND id_cli = id_cli_ped;
+ nom_cli |  fec_ped   | val_ped 
+---------+------------+---------
+ Rosa    | 2023-10-17 | 5000000
+(1 row)
+
+otra manera de hacerlo:
+laboratoriosql=# SELECT nom_cli, fec_ped, val_ped 
+laboratoriosql-# FROM pedidos, clientes
+laboratoriosql-# WHERE id_cli = id_cli_ped AND val_ped IN(SELECT MAX(val_ped) FROM pedidos);
+
+otra manera de hacerlo:
+
+laboratoriosql=# SELECT nom_cli, fec_ped, val_ped
+laboratoriosql-# FROM pedidos
+laboratoriosql-# INNER JOIN clientes
+laboratoriosql-# ON pedidos.id_cli_ped = clientes.id_cli
+laboratoriosql-# WHERE val_ped IN (SELECT MAX(val_ped) FROM pedidos);
+ nom_cli |  fec_ped   | val_ped 
+---------+------------+---------
+ Rosa    | 2023-10-17 | 5000000
+(1 row)
+
+laboratoriosql=# SELECT * FROM articulos
+laboratoriosql-# ORDER BY aut_art;
+ id_art |  tit_art   | aut_art | edi_art | prec_art 
+--------+------------+---------+---------+----------
+      4 | airpods    | apple   | Pro 2   |  2999000
+      3 | iPad       | Apple   | Pro     |  5000000
+      1 | computador | asus    | X441U   |  2300000
+      6 | tablet     | huawei  | MatePad |   830000
+      5 | tablet     | lenovo  | M10     |   600000
+      2 | celular    | samsung | A31     |   700000
+(6 rows)
+
+laboratoriosql=# SELECT id_ped, val_ped, tit_art, can_art_artped 
+laboratoriosql-# FROM pedidos, articulos, articulosxpedidos
+laboratoriosql-# WHERE id_art = id_art_artped AND id_ped = id_ped_artped;
+ id_ped | val_ped |  tit_art   | can_art_artped 
+--------+---------+------------+----------------
+      1 | 3000000 | computador |              3
+      2 | 5000000 | celular    |              4
+      3 | 4000000 | iPad       |              1
+      4 | 2000000 | airpods    |              2
+      5 | 2000000 | tablet     |              3
+      6 | 2000000 | tablet     |              1
+(6 rows)
+
+otra manera: 
+laboratoriosql=# SELECT id_ped, val_ped, tit_art, can_art_artped
+laboratoriosql-# FROM pedidos
+laboratoriosql-# INNER JOIN articulosxpedidos ON pedidos.id_ped = articulosxpedidos.id_ped_artped
+laboratoriosql-# INNER JOIN articulos ON articulos.id_art = articulosxpedidos.id_art_artped;
+ id_ped | val_ped |  tit_art   | can_art_artped 
+--------+---------+------------+----------------
+      1 | 3000000 | computador |              3
+      2 | 5000000 | celular    |              4
+      3 | 4000000 | iPad       |              1
+      4 | 2000000 | airpods    |              2
+      5 | 2000000 | tablet     |              3
+      6 | 2000000 | tablet     |              1
+(6 rows)
+
+
+laboratoriosql=# SELECT * FROM clientes
+laboratoriosql-# ORDER BY ape_cli DESC;
+
+ id_cli |  nom_cli  |  ape_cli   |                                        dir_cli                                         | dep_cli | mes_cum_cli 
+--------+-----------+------------+----------------------------------------------------------------------------------------+---------+-------------
+ CC135  | Margarita | Ramirez    | Calle Reforma 123, Int. 2, Colonia Juárez, C.P. 06600, Alcaldía Cuauhtémoc             | Valle   | Diciembre
+ CC246  | Gabriela  | Murillo    | Calle Benito Juárez 234, Int. 3, Colonia Del Valle, C.P. 03100, Alcaldía Benito Juárez | Valle   | Enero
+ CC806  | Vilma     | Murgueitio | Calle Álvaro Obregón 678, Int. 8, Colonia Condesa, C.P. 06140, Alcaldía Cuauhtémoc     | Valle   | Agosto
+ CC798  | Rosa      | Gonzalez   | Calle Insurgentes 456, Int. 5, Colonia Roma Norte, C.P. 06700, Alcaldía Cuauhtémoc     | Valle   | Enero
+ CC423  | Sebastián | Gomez      | Calle Reforma 123, Int. 2, Colonia Juárez, C.P. 06600, Alcaldía Cuauhtémoc             | Valle   | Diciembre
+ CC864  | Elena     | Galeano    | Calle Hidalgo 789, Int. 10, Colonia Centro, C.P. 06000, Alcaldía Cuauhtémoc            | Valle   | Noviembre
+(6 rows)
+
+laboratoriosql=# SELECT * FROM articulos
+laboratoriosql-# ORDER BY aut_art;
+ id_art |  tit_art   | aut_art | edi_art | prec_art 
+--------+------------+---------+---------+----------
+      4 | airpods    | apple   | Pro 2   |  2999000
+      3 | iPad       | Apple   | Pro     |  5000000
+      1 | computador | asus    | X441U   |  2300000
+      6 | tablet     | huawei  | MatePad |   830000
+      5 | tablet     | lenovo  | M10     |   600000
+      2 | celular    | samsung | A31     |   700000
+(6 rows)
+
+laboratoriosql=# SELECT nom_cli, dir_cli, id_ped, can_art_artped
+laboratoriosql-# FROM pedidos, clientes, articulosxpedidos
+laboratoriosql-# WHERE id_ped = id_ped_artped AND id_cli_ped = id_cli AND id_art_artped = 2;
+
+ nom_cli |                                      dir_cli                                       | id_ped | can_art_artped 
+---------+------------------------------------------------------------------------------------+--------+----------------
+ Rosa    | Calle Insurgentes 456, Int. 5, Colonia Roma Norte, C.P. 06700, Alcaldía Cuauhtémoc |      2 |              4
+(1 row)
+
+otra manera:
+
+laboratoriosql=# SELECT nom_cli, dir_cli, id_ped, can_art_artped
+laboratoriosql-# FROM pedidos
+laboratoriosql-# INNER JOIN clientes
+laboratoriosql-# ON pedidos.id_cli_ped = clientes.id_cli
+laboratoriosql-# INNER JOIN articulosxpedidos ON pedidos.id_ped = articulosxpedidos.id_ped_artped
+laboratoriosql-# WHERE articulosxpedidos.id_art_artped = 2;
+
+
+laboratoriosql=# SELECT * FROM compañia
+laboratoriosql-# WHERE comañofun > 2001 AND comañofun < 2008;
+   comnit    | comnombre  | comañofun |   comreplegal    
+-------------+------------+-----------+------------------
+ 899999999-5 | compañía 1 |      2002 | legal compañía 1
+ 000000002-1 | compañía 3 |      2003 | legal compañía 3
+ 000000004-1 | compañía 5 |      2004 | legal compañía 5
+(3 rows)
+
+laboratoriosql=# SELECT autoplaca, automodelo, automarca, autopasajeros, autocilindraje, asevalorasegurado, asecosto 
+laboratoriosql-# FROM aseguramientos, automotores, tiposautomotores
+laboratoriosql-# WHERE autoplaca = aseplaca AND asefechaexpiracion <= '20231031' AND asefechaexpiracion >= '20231001';
+
+otra manera:
+
+laboratoriosql=# SELECT autoplaca, automodelo, automarca, autopasajeros, autocilindraje, asevalorasegurado, asecosto
+laboratoriosql-# FROM aseguramientos
+laboratoriosql-# INNER JOIN automotores ON aseguramientos.aseplaca = automotores.autoplaca
+laboratoriosql-# INNER JOIN tiposautomotores ON automotores.autotipo = tiposautomotores.auttipo
+laboratoriosql-# WHERE asefechaexpiracion <= '2023-10-31' 
+laboratoriosql-# AND asefechaexpiracion >= '2023-10-01';
+
+ autoplaca | automodelo | automarca | autopasajeros | autocilindraje | asevalorasegurado | asecosto 
+-----------+------------+-----------+---------------+----------------+-------------------+----------
+(0 rows)
+
+Nota: no hay ningún registro correspondiente a esa fecha.
+
+laboratoriosql=# SELECT inciplaca, incifecha, incilugar, incicodigo, asefechainicio, asecosto, aseestado, asevalorasegurado
+laboratoriosql-# FROM aseguramientos, incidentes
+laboratoriosql-# WHERE inciplaca = aseplaca AND incifecha = '2022-09-30';
+
+otra manera:
+
+laboratoriosql=# SELECT inciplaca, incifecha, incilugar, incicodigo, asefechainicio, asecosto, aseestado, asevalorasegurado
+laboratoriosql-# FROM aseguramientos
+laboratoriosql-# INNER JOIN incidentes ON aseguramientos.aseplaca = incidentes.inciplaca
+laboratoriosql-# WHERE incidentes.incifecha = '2022-09-30';
+
+ inciplaca | incifecha | incilugar | incicodigo | asefechainicio | asecosto | aseestado | asevalorasegurado 
+-----------+-----------+-----------+------------+----------------+----------+-----------+-------------------
+(0 rows)
+
+laboratoriosql=# SELECT incicantheridos, autoplaca, incilugar, incifecha, asefechainicio, aseestado, asecosto, asevalorasegurado
+laboratoriosql-# FROM incidentes, aseguramientos, automotores
+laboratoriosql-# WHERE inciplaca = aseplaca AND autoplaca = inciplaca AND incicantheridos = 1;
+
+otra manera:
+
+laboratoriosql=# SELECT incicantheridos, automotores.autoplaca, incilugar, incifecha, asefechainicio, aseestado, asecosto, asevalorasegurado
+laboratoriosql-# FROM incidentes
+laboratoriosql-# INNER JOIN aseguramientos ON incidentes.inciplaca = aseguramientos.aseplaca
+laboratoriosql-# INNER JOIN automotores ON automotores.autoplaca = incidentes.inciplaca
+laboratoriosql-# WHERE incicantheridos = 1;
+
+ incicantheridos | autoplaca |     incilugar      | incifecha  | asefechainicio | aseestado | asecosto | asevalorasegurado 
+-----------------+-----------+--------------------+------------+----------------+-----------+----------+-------------------
+               1 | DEF456    | Calle Falsa 123    | 2023-08-22 | 2022-07-15     | Expirado  |  1100000 |          45000000
+               1 | PQR678    | Avenida Las Palmas | 2023-04-25 | 2023-09-01     | Activo    |  1250000 |          48000000
+(2 rows)
+
+laboratoriosql=# SELECT * FROM aseguramientos
+laboratoriosql-# WHERE asecosto IN(SELECT MAX(asecosto) FROM aseguramientos);
+
+ asecodigo | asefechainicio | asefechaexpiracion | asevalorasegurado | aseestado | asecosto | aseplaca 
+-----------+----------------+--------------------+-------------------+-----------+----------+----------
+         5 | 2023-05-20     | 2024-05-20         |          70000000 | Activo    |  1400000 | MNO345
+(1 row)
+
+laboratoriosql=# SELECT aseestado, asevalorasegurado 
+laboratoriosql-# FROM aseguramientos 
+laboratoriosql-# WHERE aseplaca IN (SELECT inciplaca 
+laboratoriosql(# FROM incidentes 
+laboratoriosql(# WHERE incicanautosinvolucrados = (SELECT MIN(incicanautosinvolucrados) 
+laboratoriosql(#FROM incidentes));
+
+ aseestado | asevalorasegurado 
+-----------+-------------------
+ Activo    |          60000000
+(1 row)
+
+laboratoriosql=# SELECT inciplaca, incifecha, incilugar, incicantheridos, asefechainicio, asefechaexpiracion, asevalorasegurado
+laboratoriosql-# FROM incidentes, aseguramientos
+laboratoriosql-# WHERE inciplaca = aseplaca AND inciplaca = 'QGX767';
+
+otra manera:
+
+laboratoriosql=# SELECT inciplaca, incifecha, incilugar, incicantheridos, asefechainicio, asefechaexpiracion, asevalorasegurado
+laboratoriosql-#  FROM incidentes
+INNER JOIN aseguramientos ON incidentes.inciplaca = aseguramientos.aseplaca
+WHERE incidentes.inciplaca = 'QGX767';
+
+ inciplaca | incifecha  |      incilugar       | incicantheridos | asefechainicio | asefechaexpiracion | asevalorasegurado 
+-----------+------------+----------------------+-----------------+----------------+--------------------+-------------------
+ QGX767    | 2023-09-15 | Avenida Siempre Viva |               2 | 2023-01-01     | 2024-01-01         |          50000000
+(1 row)
+
+laboratoriosql=# SELECT * FROM compañia 
+WHERE comnit = '899999999-5';
+   comnit    | comnombre  | comañofun |   comreplegal    
+-------------+------------+-----------+------------------
+ 899999999-5 | compañía 1 |      2002 | legal compañía 1
+(1 row)
+
+laboratoriosql=# SELECT * FROM aseguramientos, automotores
+laboratoriosql-# WHERE aseplaca = autoplaca AND asevalorasegurado IN(SELECT MAX(asevalorasegurado) FROM aseguramientos);
+
+ asecodigo | asefechainicio | asefechaexpiracion | asevalorasegurado | aseestado | asecosto | aseplaca | autoplaca | automarca | autotipo | automodelo | autopasajeros | autocilindraje | autonumchasis 
+-----------+----------------+--------------------+-------------------+-----------+----------+----------+-----------+-----------+----------+------------+---------------+----------------+---------------
+         5 | 2023-05-20     | 2024-05-20         |          70000000 | Activo    |  1400000 | MNO345   | MNO345    | mazda     |        5 |       2022 |             4 |           1600 | DEF987654321
+(1 row)
+
+laboratoriosql=# SELECT autoplaca, automarca, automodelo, autocilindraje, asefechainicio, asefechaexpiracion, aseestado
+laboratoriosql-# FROM automotores, aseguramientos
+laboratoriosql-# WHERE autoplaca = aseplaca AND autotipo = 1;
+
+otra manera: 
+
+laboratoriosql=#  SELECT autoplaca, automarca, automodelo, autocilindraje, asefechainicio, asefechaexpiracion, aseestado
+laboratoriosql-# FROM automotores
+laboratoriosql-# INNER JOIN aseguramientos ON automotores.autoplaca = aseguramientos.aseplaca
+laboratoriosql-# WHERE automotores.autotipo = 1;
+
+ autoplaca | automarca | automodelo | autocilindraje | asefechainicio | asefechaexpiracion | aseestado 
+-----------+-----------+------------+----------------+----------------+--------------------+-----------
+ QGX767    | toyota    |       2020 |           2000 | 2023-01-01     | 2024-01-01         | Activo
+(1 row)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION insertar_profesor(
+laboratoriosql(# p_doc_prof VARCHAR,
+laboratoriosql(# p_nom_prof VARCHAR,
+laboratoriosql(# p_ape_prof VARCHAR,
+laboratoriosql(# p_cate_prof INT,
+laboratoriosql(# p_sal_prof INT
+laboratoriosql(# )
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql(# doc_prof VARCHAR,
+laboratoriosql(# nom_prof VARCHAR,
+laboratoriosql(# ape_prof VARCHAR,
+laboratoriosql(# cate_prof INT,
+laboratoriosql(# sal_prof INT
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# INSERT INTO profesores (doc_prof, nom_prof, ape_prof, cate_prof, sal_prof)
+laboratoriosql$# VALUES (p_doc_prof, p_nom_prof, p_ape_prof, p_cate_prof, p_sal_prof);
+laboratoriosql$# RETURN QUERY SELECT profesores.doc_prof, profesores.nom_prof, profesores.ape_prof, profesores.cate_prof, profesores.sal_prof
+laboratoriosql$# FROM profesores;  
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM insertar_profesor('12345678901', 'Carlos', 'Gómez', 1, 3000);
+
+laboratoriosql=# SELECT * FROM insertar_profesor('0987654321', 'Daniel', 'Guzmán', 1, 5000);
+  doc_prof   | nom_prof | ape_prof  | cate_prof | sal_prof 
+-------------+----------+-----------+-----------+----------
+ CC123       | Julio    | Castaño   |         2 |  3000000
+ CC456       | Miguel   | Mondragon |         1 |  2000000
+ CC789       | Yenifer  | Orozco    |         1 |  4000000
+ CC098       | Angel    | Lopez     |         1 |  1000000
+ CC765       | Nicolas  | Moreno    |         1 |   500000
+ CC432       | Marcela  | Saavedra  |         2 |   350000
+ 12345678901 | Carlos   | Gómez     |         1 |     3000
+ 0987654321  | Daniel   | Guzmán    |         1 |     5000
+(8 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION insertar_cursos(
+laboratoriosql(# c_cod_curs INT,
+laboratoriosql(# c_nom_cur VARCHAR,
+laboratoriosql(# c_horas_cur INT,
+laboratoriosql(# c_valor_cur INT
+laboratoriosql(# )
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql(# cod_curs INT,
+laboratoriosql(# nom_curs VARCHAR,
+laboratoriosql(# horas_cur INT,
+laboratoriosql(# valor_cur INT
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# INSERT INTO cursos (cod_curs, nom_curs, horas_cur, valor_cur)
+laboratoriosql$# VALUES (c_cod_curs, c_nom_cur, c_horas_cur, c_valor_cur);
+laboratoriosql$# RETURN QUERY SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+laboratoriosql$# FROM cursos;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM insertar_cursos(8, 'ciencias', 50, 100000);
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        6 | Lógica de Programación                       |        20 |    100000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        8 | ciencias                                     |        50 |    100000
+(7 rows)
+
+laboratoriosql=# SELECT * FROM insertar_cursos(7, 'JS', 50, 100000);
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        6 | Lógica de Programación                       |        20 |    100000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        8 | ciencias                                     |        50 |    100000
+        7 | JS                                           |        50 |    100000
+(8 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION insertar_estudiantes(
+laboratoriosql(# e_doc_est VARCHAR,
+laboratoriosql(# e_nom_est VARCHAR,
+laboratoriosql(# e_ape_est VARCHAR,
+laboratoriosql(# e_edad_est INT
+laboratoriosql(# )
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql(# doc_est VARCHAR,
+laboratoriosql(# nom_est VARCHAR,
+laboratoriosql(# ape_est VARCHAR,
+laboratoriosql(# edad_est INT
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN 
+laboratoriosql$# INSERT INTO estudiantes (doc_est, nom_est, ape_est, edad_est)
+laboratoriosql$# VALUES (e_doc_est, e_nom_est, e_ape_est, e_edad_est);
+laboratoriosql$# RETURN QUERY SELECT estudiantes.doc_est, estudiantes.nom_est, estudiantes.ape_est, estudiantes.edad_est
+laboratoriosql$# FROM estudiantes;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT 
+laboratoriosql-# * FROM insertar_estudiantes ('123X', 'Martin', 'Tabarez', 15);
+ doc_est | nom_est |     ape_est     | edad_est 
+---------+---------+-----------------+----------
+ CC123   | Laura   | Barona Saavedra |       25
+ CC456   | Mariana | Gomez           |       28
+ CC789   | Sara    | Lopez           |       27
+ CC098   | Jose    | Daza            |       24
+ CC765   | Jhon    | Arias           |       25
+ CC432   | Jason   | Martinez        |       30
+ 123X    | Martin  | Tabarez         |       15
+(7 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION insertar_estudiantesxcursos(
+laboratoriosql(# ec_cod_cur_estcur INT,
+laboratoriosql(# ec_doc_est_estcur VARCHAR,
+laboratoriosql(# ec_fec_ini_estcur DATE
+laboratoriosql(# )
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql(# cod_cur_estcur INT,
+laboratoriosql(# doc_est_estcur VARCHAR,
+laboratoriosql(# fec_ini_estcur DATE
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# INSERT INTO estudiantesxcursos (cod_cur_estcur, doc_est_estcur, fec_ini_estcur)
+laboratoriosql$# VALUES (ec_cod_cur_estcur, ec_doc_est_estcur, ec_fec_ini_estcur);
+laboratoriosql$# RETURN QUERY SELECT estudiantesxcursos.cod_cur_estcur, estudiantesxcursos.doc_est_estcur, estudiantesxcursos.fec_ini_estcur
+laboratoriosql$# FROM estudiantesxcursos;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM insertar_estudiantesxcursos (1, 'CC123', '20224-08-12');
+ cod_cur_estcur | doc_est_estcur | fec_ini_estcur 
+----------------+----------------+----------------
+              1 | CC123          | 2024-08-02
+              2 | CC456          | 2024-08-06
+              3 | CC789          | 2024-08-06
+              4 | CC098          | 2024-08-10
+              5 | CC765          | 2024-09-04
+              6 | CC432          | 2024-03-25
+              1 | CC123          | 20224-08-12
+(7 rows)
+
+laboratoriosql=# SELECT * FROM insertar_estudiantesxcursos (2, 'CC456', '2024-08-12');
+ cod_cur_estcur | doc_est_estcur | fec_ini_estcur 
+----------------+----------------+----------------
+              1 | CC123          | 2024-08-02
+              2 | CC456          | 2024-08-06
+              3 | CC789          | 2024-08-06
+              4 | CC098          | 2024-08-10
+              5 | CC765          | 2024-09-04
+              6 | CC432          | 2024-03-25
+              1 | CC123          | 20224-08-12
+              2 | CC456          | 2024-08-12
+(8 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION mostrar_salarios_por_categoria()
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql(# doc_prof VARCHAR,
+laboratoriosql(# nom_prof VARCHAR,
+laboratoriosql(# ape_prof VARCHAR,
+laboratoriosql(# cate_prof INT,
+laboratoriosql(# sal_prof INT
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# RETURN QUERY
+laboratoriosql$# SELECT profesores.doc_prof, profesores.nom_prof, profesores.ape_prof, profesores.cate_prof, profesores.sal_prof
+laboratoriosql$# FROM profesores
+laboratoriosql$# ORDER BY profesores.cate_prof;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM mostrar_salarios_por_categoria();
+  doc_prof   | nom_prof | ape_prof  | cate_prof | sal_prof 
+-------------+----------+-----------+-----------+----------
+ 0987654321  | Daniel   | Guzmán    |         1 |     5000
+ CC456       | Miguel   | Mondragon |         1 |  2000000
+ CC789       | Yenifer  | Orozco    |         1 |  4000000
+ CC098       | Angel    | Lopez     |         1 |  1000000
+ CC765       | Nicolas  | Moreno    |         1 |   500000
+ 12345678901 | Carlos   | Gómez     |         1 |     3000
+ CC123       | Julio    | Castaño   |         2 |  3000000
+ CC432       | Marcela  | Saavedra  |         2 |   350000
+(8 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION mostrar_cursos_valor_mayor_500k()
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql=# cod_curs INT,
+laboratoriosql(# nom_curs VARCHAR,
+laboratoriosql(# horas_cur INT,
+laboratoriosql(# valor_cur INT
+laboratoriosql(# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# RETURN QUERY
+laboratoriosql$# SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+laboratoriosql$# FROM cursos
+laboratoriosql$# WHERE cursos.valor_cur > 500000;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM mostrar_cursos_valor_mayor_500k();
+ cod_curs |            nom_curs            | horas_cur | valor_cur 
+----------+--------------------------------+-----------+-----------
+        2 | Introducción a la Programación |        60 |   2000000
+        3 | Emprendimiento                 |        40 |   2000000
+        1 | Gestión Bases de Datos         |        80 |   1500000
+(3 rows)
+
+laboratoriosql=# CREATE OR REPLACE FUNCTION mostrar_cursos_orden_ascendente_por_valor()
+laboratoriosql-# RETURNS TABLE(
+laboratoriosql=# cod_curs INT,
+laboratoriosql=# nom_curs VARCHAR,
+laboratoriosql=# horas_cur INT,
+laboratoriosql=#  valor_cur INT
+laboratoriosql=# ) AS $$
+laboratoriosql$# BEGIN
+laboratoriosql$# RETURN QUERY
+laboratoriosql$# SELECT cursos.cod_curs, cursos.nom_curs, cursos.horas_cur, cursos.valor_cur
+laboratoriosql$# FROM cursos
+laboratoriosql$# ORDER BY cursos.valor_cur ASC;
+laboratoriosql$# END;
+laboratoriosql$# $$ LANGUAGE plpgsql;
+CREATE FUNCTION
+
+laboratoriosql=# SELECT * FROM mostrar_cursos_orden_ascendente_por_valor();
+
+ cod_curs |                   nom_curs                   | horas_cur | valor_cur 
+----------+----------------------------------------------+-----------+-----------
+        7 | JS                                           |        50 |    100000
+        6 | Lógica de Programación                       |        20 |    100000
+        8 | ciencias                                     |        50 |    100000
+        5 | Introducción a los Lenguajes de Programación |        20 |    250000
+        4 | Seguridad y Salud en el Trabajo              |        40 |    500000
+        1 | Gestión Bases de Datos                       |        80 |   1500000
+        2 | Introducción a la Programación               |        60 |   2000000
+        3 | Emprendimiento                               |        40 |   2000000
+(8 rows)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
