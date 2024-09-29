@@ -1,7 +1,7 @@
-laboratoriosql=# CREATE DATABASE laboratorioSQL;
+postgres=# CREATE DATABASE laboratorioSQL;
 CREATE DATABASE
 
-laboratoriosql=# \c laboratoriosql
+postgres=# \c laboratoriosql
 You are now connected to database "laboratoriosql" as user "laboratoriosql".
 laboratoriosql=# 
 
