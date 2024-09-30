@@ -1,3 +1,6 @@
 [submodule "Introducción a la Programación/Python/Proyecto Final"]
 	path = Introducción a la Programación/Python/Proyecto Final
 	url = https://github.com/pio-grupo-6/reserva-sala-cine.git
+[submodule "Introducción a los Lenguajes de Programación/Clases/Talleres/Proyecto Final/Teatro-Apolo"]
+	path = Introducción a los Lenguajes de Programación/Clases/Talleres/Proyecto Final/Teatro-Apolo
+	url = https://github.com/Yansury/Teatro-Apolo.git
