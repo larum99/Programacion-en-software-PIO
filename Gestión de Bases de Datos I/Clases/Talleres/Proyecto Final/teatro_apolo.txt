@@ -1,0 +1,280 @@
+postgres=# CREATE DATABASE teatro_apolo;
+CREATE DATABASE
+
+postgres=# \c teatro_apolo;
+You are now connected to database "teatro_apolo" as user "postgres".
+teatro_apolo=# 
+
+teatro_apolo=# CREATE TABLE peliculas(
+teatro_apolo(# id_pelicula varchar(5),
+teatro_apolo(# titulo varchar(80),
+teatro_apolo(# tipo varchar(15),
+teatro_apolo(# categoria varchar(10),
+teatro_apolo(# actor_principal varchar(50),
+teatro_apolo(# precio_actual int,
+teatro_apolo(# stock int,
+teatro_apolo(# saldo int,
+teatro_apolo(# primary key(id_pelicula));
+CREATE TABLE
+
+teatro_apolo=# INSERT INTO peliculas (id_pelicula, titulo, tipo, categoria, actor_principal, precio_actual, stock, saldo)
+teatro_apolo-# VALUES
+teatro_apolo-# ('P0001', 'El Viaje Inesperado', 'Aventura', 'Estreno', 'John Smith', 25000, 50, 500),
+teatro_apolo-# ('P0002', 'Amor y Destino', 'Romántica', 'Normal', 'Emma Johnson', 20000, 30, 300);
+INSERT 0 2
+
+teatro_apolo=# INSERT INTO peliculas (id_pelicula, titulo, tipo, categoria, actor_principal, precio_actual, stock, saldo)
+VALUES
+teatro_apolo-# ('P0003', 'La Batalla Final', 'Acción', 'Clásico', 'Chris Evans', 18000, 20, 200),
+teatro_apolo-# ('P0004', 'Rápidos y Furiosos 9', 'Acción', 'Estreno', 'Vin Diesel', 30000, 100, 1000),
+teatro_apolo-# ('P0005', 'La Vida es Bella', 'Drama', 'Clásico', 'Roberto Benigni', 15000, 10, 100),
+teatro_apolo-# ('P0006', 'Los Vengadores', 'Superhéroes', 'Normal', 'Robert Downey Jr.', 22000, 40, 400),
+teatro_apolo-# ('P0007', 'El Padrino', 'Mafia', 'Clásico', 'Marlon Brando', 17000, 15, 150),
+teatro_apolo-# ('P0008', 'Matrix Resurrecciones', 'Ciencia Ficción', 'Estreno', 'Keanu Reeves', 28000, 60, 600),
+teatro_apolo-# ('P0009', 'Una Aventura de Amor', 'Comedia', 'Normal', 'Jennifer Aniston', 19000, 35, 350),
+teatro_apolo-# ('P0010', 'Star Wars: Una Nueva Esperanza', 'Ciencia Ficción', 'Clásico', 'Mark Hamill', 16000, 25, 250);
+INSERT 0 8
+
+teatro_apolo=# CREATE TABLE cliente(
+teatro_apolo(# id_cliente numeric(12),
+teatro_apolo(# nombre varchar(50),
+teatro_apolo(# apellido1 varchar(50),
+teatro_apolo(# apellido2 varchar(50),
+teatro_apolo(# documento int,
+teatro_apolo(# direccion varchar(80),
+teatro_apolo(# telefono varchar(20),
+teatro_apolo(# celular varchar(20),
+teatro_apolo(# primary key(id_cliente));
+CREATE TABLE
+
+Clientes con teléfono
+
+teatro_apolo=# INSERT INTO cliente (id_cliente, nombre, apellido1, apellido2, documento, direccion, telefono, celular) VALUES
+teatro_apolo-# (1, 'Juan', 'Pérez', 'García', 12345678, 'Calle del Hipódromo', '123456789', '987654321'),
+teatro_apolo-# (2, 'Ana', 'Gómez', 'López', 87654321, 'Calle del Hipódromo', '987654321', '111222333'),
+teatro_apolo-# (3, 'Carlos', 'Sánchez', 'Martínez', 11223344, 'Avenida Libertador', '222333444', '666777888');
+INSERT 0 3
+
+Clientes sin teléfono
+
+teatro_apolo=# INSERT INTO cliente (id_cliente, nombre, apellido1, apellido2, documento, direccion, celular) VALUES
+teatro_apolo-# (4, 'María', 'Fernández', 'Torres', 44332211, 'Calle 123', '111222333'),
+teatro_apolo-# (5, 'Luis', 'Martínez', 'Moreno', 55667788, 'Calle 456', '555666777'),
+teatro_apolo-# (6, 'Isabel', 'Reyes', 'Alvarez', 99887766, 'Calle 789', '444555666'),
+teatro_apolo-# (7, 'Fernando', 'Cruz', 'Vargas', 55443322, 'Calle 321', '999888777');
+INSERT 0 4
+
+Clientes con y sin teléfono
+
+teatro_apolo=# INSERT INTO cliente (id_cliente, nombre, apellido1, apellido2, documento, direccion, telefono, celular) VALUES
+teatro_apolo-# (8, 'Sofía', 'Morales', 'Castañeda', 22334455, 'Calle 654', '888999000', '222333444'),
+teatro_apolo-# (9, 'Diego', 'Castillo', 'Reyes', 33221144, 'Calle 987', NULL, '777888999'),
+teatro_apolo-# (10, 'Laura', 'Hernández', 'Pérez', 99881122, 'Calle 135', NULL, '555666777');
+INSERT 0 3
+
+teatro_apolo=# CREATE TABLE boleta(
+teatro_apolo(# numero_boleta varchar(5),
+teatro_apolo(# fecha_alquiler date,
+teatro_apolo(# id_cliente_boleta numeric(12),
+teatro_apolo(# constraint fk_cliente_boleta foreign key (id_cliente_boleta) references cliente (id_cliente),
+teatro_apolo(# primary key(numero_boleta));
+CREATE TABLE
+
+teatro_apolo=# INSERT INTO boleta (numero_boleta, fecha_alquiler, id_cliente_boleta) VALUES
+teatro_apolo-# ('B001', '2024-09-25', 1),
+teatro_apolo-# ('B002', '2024-09-26', 2),
+teatro_apolo-# ('B003', '2024-09-27', 3),
+teatro_apolo-# ('B004', '2024-09-28', 4),
+teatro_apolo-# ('B005', '2024-09-29', 5),
+teatro_apolo-# ('B006', '2024-09-30', 6),
+teatro_apolo-# ('B007', '2024-10-01', 7),
+teatro_apolo-# ('B008', '2024-10-02', 8),
+teatro_apolo-# ('B009', '2024-10-03', 9),
+teatro_apolo-# ('B010', '2024-10-04', 10);
+INSERT 0 10
+
+teatro_apolo=# CREATE TYPE devuelto_enum AS ENUM ('si', 'no');
+CREATE TYPE
+
+teatro_apolo=# CREATE TABLE detalleboleta(
+teatro_apolo-# numero_boleta_detalle_boleta varchar(5),
+teatro_apolo-# id_pelicula_detalle_boleta varchar(5),
+teatro_apolo-# precio_alquilado int,
+teatro_apolo-# devuelto devuelto_enum,
+teatro_apolo-# fecha_devolucion date,
+teatro_apolo-# dias_mora int,
+teatro_apolo-# constraint fk_numero_boleta_db foreign key (numero_boleta_detalle_boleta) references boleta (numero_boleta),
+teatro_apolo-# constraint fk_id_pelicula_db foreign key (id_pelicula_detalle_boleta) references peliculas (id_pelicula));
+CREATE TABLE
+
+teatro_apolo=# INSERT INTO detalleboleta (numero_boleta_detalle_boleta, id_pelicula_detalle_boleta, precio_alquilado, devuelto, fecha_devolucion, dias_mora) VALUES
+teatro_apolo-# ('B001', 'P0001', 10000, 'si', '2024-09-01', 0),
+teatro_apolo-# ('B002', 'P0002', 15000, 'no', '2024-09-02', 1),
+teatro_apolo-# ('B003', 'P0003', 12000, 'si', '2024-09-03', 0),
+teatro_apolo-# ('B004', 'P0004', 13000, 'no', '2024-09-04', 2),
+teatro_apolo-# ('B005', 'P0005', 14000, 'si', '2024-09-05', 0),
+teatro_apolo-# ('B006', 'P0006', 11000, 'no', '2024-09-06', 3),
+teatro_apolo-# ('B007', 'P0007', 15000, 'si', '2024-09-07', 0),
+teatro_apolo-# ('B008', 'P0008', 12000, 'no', '2024-09-08', 4),
+teatro_apolo-# ('B009', 'P0009', 13000, 'si', '2024-09-09', 0),
+teatro_apolo-# ('B010', 'P0010', 14000, 'no', '2024-09-10', 5);
+INSERT 0 10
+
+teatro_apolo=# INSERT INTO detalleboleta (numero_boleta_detalle_boleta, id_pelicula_detalle_boleta, precio_alquilado, devuelto, fecha_devolucion, dias_mora) VALUES
+teatro_apolo-# ('B001', 'P0005', 14500, 'no', '2024-09-11', 1),
+teatro_apolo-# ('B002', 'P0006', 15000, 'si', '2024-09-12', 0),
+teatro_apolo-# ('B003', 'P0007', 17000, 'no', '2024-09-13', 2),
+teatro_apolo-# ('B004', 'P0008', 15500, 'si', '2024-09-14', 0),
+teatro_apolo-# ('B005', 'P0009', 16500, 'no', '2024-09-15', 3),
+teatro_apolo-# ('B006', 'P0010', 17500, 'si', '2024-09-16', 0),
+teatro_apolo-# ('B007', 'P0001', 18500, 'no', '2024-09-17', 4),
+teatro_apolo-# ('B008', 'P0002', 19000, 'si', '2024-09-18', 0),
+teatro_apolo-# ('B009', 'P0003', 19500, 'no', '2024-09-19', 5),
+teatro_apolo-# ('B010', 'P0004', 20000, 'si', '2024-09-20', 0);
+INSERT 0 10
+
+teatro_apolo=# SELECT titulo, tipo, actor_principal                             
+teatro_apolo-# FROM peliculas
+teatro_apolo-# WHERE categoria = 'Estreno'
+teatro_apolo-# ORDER BY titulo;
+        titulo         |      tipo       | actor_principal 
+-----------------------+-----------------+-----------------
+ El Viaje Inesperado   | Aventura        | John Smith
+ Matrix Resurrecciones | Ciencia Ficción | Keanu Reeves
+ Rápidos y Furiosos 9  | Acción          | Vin Diesel
+(3 rows)
+
+teatro_apolo=# SELECT *                             
+teatro_apolo-# FROM cliente
+teatro_apolo-# WHERE apellido1 LIKE 'F%' OR apellido2 LIKE 'F%';
+
+ id_cliente | nombre | apellido1 | apellido2 | documento | direccion | telefono |  celular  
+------------+--------+-----------+-----------+-----------+-----------+----------+-----------
+          4 | María  | Fernández | Torres    |  44332211 | Calle 123 |          | 111222333
+(1 row)
+
+teatro_apolo=# UPDATE cliente
+teatro_apolo-# SET telefono = NULL
+teatro_apolo-# WHERE id_cliente = 1;
+UPDATE 1
+
+teatro_apolo=# SELECT * 
+teatro_apolo-# FROM cliente
+teatro_apolo-# WHERE telefono IS NULL
+teatro_apolo-# AND LOWER(direccion) = LOWER('Calle del Hipódromo');
+
+
+ id_cliente | nombre | apellido1 | apellido2 | documento |      direccion      | telefono |  celular  
+------------+--------+-----------+-----------+-----------+---------------------+----------+-----------
+          1 | Juan   | Pérez     | García    |  12345678 | Calle del Hipódromo |          | 987654321
+(1 row)
+
+teatro_apolo=# SELECT titulo, tipo, stock 
+teatro_apolo-# FROM peliculas
+teatro_apolo-# WHERE LOWER(tipo) = LOWER('acción') OR LOWER(tipo) = LOWER('terror') OR LOWER(tipo) = LOWER('drama')
+teatro_apolo-# ORDER BY tipo;
+        titulo        |  tipo  | stock 
+----------------------+--------+-------
+ La Batalla Final     | Acción |    20
+ Rápidos y Furiosos 9 | Acción |   100
+ La Vida es Bella     | Drama  |    10
+(3 rows)
+
+teatro_apolo=# UPDATE boleta
+teatro_apolo-# SET fecha_alquiler = '2024-09-01'
+teatro_apolo-# WHERE id_cliente_boleta = 1;
+UPDATE 1
+
+teatro_apolo=# SELECT b.numero_boleta, b.fecha_alquiler, d.id_pelicula_detalle_boleta, d.precio_alquilado
+FROM boleta b
+JOIN detalleboleta d ON b.numero_boleta = d.numero_boleta_detalle_boleta
+WHERE b.fecha_alquiler >= DATE_TRUNC('month', CURRENT_DATE)
+AND b.fecha_alquiler < DATE_TRUNC('month', CURRENT_DATE) + INTERVAL '7 days'
+ORDER BY b.fecha_alquiler;
+ numero_boleta | fecha_alquiler | id_pelicula_detalle_boleta | precio_alquilado 
+---------------+----------------+----------------------------+------------------
+ B001          | 2024-09-01     | P0001                      |            10000
+ B001          | 2024-09-01     | P0005                      |            14500
+ B002          | 2024-09-02     | P0002                      |            15000
+ B002          | 2024-09-02     | P0006                      |            15000
+ B003          | 2024-09-05     | P0003                      |            12000
+ B003          | 2024-09-05     | P0007                      |            17000
+(6 rows)
+
+teatro_apolo=# SELECT c.documento, c.nombre, b.numero_boleta, b.fecha_alquiler
+teatro_apolo-# FROM boleta b
+teatro_apolo-# JOIN cliente c ON b.id_cliente_boleta = c.id_cliente
+teatro_apolo-# ORDER BY c.nombre;
+ documento |  nombre  | numero_boleta | fecha_alquiler 
+-----------+----------+---------------+----------------
+  87654321 | Ana      | B002          | 2024-09-02
+  11223344 | Carlos   | B003          | 2024-09-05
+  33221144 | Diego    | B009          | 2024-10-03
+  55443322 | Fernando | B007          | 2024-10-01
+  99887766 | Isabel   | B006          | 2024-09-30
+  12345678 | Juan     | B001          | 2024-09-01
+  99881122 | Laura    | B010          | 2024-10-04
+  55667788 | Luis     | B005          | 2024-09-29
+  44332211 | María    | B004          | 2024-09-28
+  22334455 | Sofía    | B008          | 2024-10-02
+(10 rows)
+
+teatro_apolo=# UPDATE peliculas
+teatro_apolo-# SET precio_actual = precio_actual + 5000
+teatro_apolo-# WHERE categoria = 'Estreno';
+UPDATE 3
+
+teatro_apolo=# UPDATE peliculas
+teatro_apolo-# SET precio_actual = CASE 
+teatro_apolo-# WHEN categoria = 'Normal' THEN 40000
+teatro_apolo-# WHEN categoria = 'Clásico' THEN 45000
+teatro_apolo-# END
+teatro_apolo-# WHERE categoria IN ('Normal', 'Clásico');
+UPDATE 7
+
+teatro_apolo=# UPDATE peliculas 
+teatro_apolo-# SET stock = CASE
+teatro_apolo-# WHEN id_pelicula = 'P0010' THEN 1
+teatro_apolo-# WHEN id_pelicula = 'P0005' THEN 2
+teatro_apolo-# WHEN id_pelicula = 'P0001' THEN 2
+teatro_apolo-# END
+teatro_apolo-# WHERE id_pelicula IN ('P0010', 'P0005', 'P0001');
+UPDATE 3
+
+teatro_apolo=# DELETE FROM detalleboleta
+teatro_apolo-# WHERE id_pelicula_detalle_boleta IN (SELECT id_pelicula FROM peliculas WHERE tipo = 'Drama' AND stock IN (1, 2));
+DELETE 2
+
+teatro_apolo=# DELETE FROM peliculas
+teatro_apolo-# WHERE tipo = 'Drama' AND stock IN (1, 2);
+DELETE 1
+teatro_apolo=# 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
