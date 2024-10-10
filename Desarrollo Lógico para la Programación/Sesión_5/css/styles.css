@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Afacad+Flux:wght@100..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+*{
+    font-family: 'Afacad Flux', sans-serif;
+}
+
+h1{
+    color: #0D3B66;
+    background-color: #FAF0CA;
+    text-align: center;
+    font-size: 40px;
+}
+
+#formRegistro{
+    background-color: #FAF0CA;
+    border-style: dashed;
+    border-color: #F95738;
+    border-radius: 20px;
+    margin: auto;
+    padding: 10px 20px 10px 10px;
+    width: 70%;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    -ms-border-radius: 20px;
+    -o-border-radius: 20px;
+}
+
+input[type=text], [type=password], [type=email]{
+    border-style: solid;
+    border-width: 1px;
+    border-color: #F95738;
+    border-radius: 3px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    padding: 0 5px 0 5px;
+    width: 90%;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+
+.grupo{
+    margin-top: 10px;
+}
+
+label{
+    font-weight: bold;
+}
+
+.boton{
+    border-style: none;
+    border-radius: 3px;
+    background-color: #634BEE;
+    color: #FAF0CA;
+    font-weight: bold;
+    line-height: 30px;
+    text-align: center;
+    width: 90%;
+}
+

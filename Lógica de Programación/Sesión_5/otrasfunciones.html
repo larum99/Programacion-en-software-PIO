@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        function potencia(a,b){
+            return Math.pow(a,b);
+        }
+
+        function raiz(a,b){
+            return Math.pow(a, 1/b)
+        }
+
+        function factorial(num){
+            f = 1
+            for(let i = 1; i < num; i++){
+                f *= i;
+            }
+            return f;
+        }
+
+        function ecuacion(a,b){
+            try{
+                if(b == 0){
+                    throw new Error(' No se puede dividir por 0')
+                }
+                return -a / b;
+            }catch(error){
+                return error.message;
+            }
+        }
+        num1 = parseInt(prompt('Número 1: '));
+        num2 = parseInt(prompt('Número 2: '));
+        document.write(num1 + ' elevado al ' + num2 + ' es = ' + potencia(num1, num2) + '<br>')
+        nf =  factorial(num1);
+        mf = factorial(num2);
+        nmf = factorial(num1 - num2);
+        c = nf / (mf * nmf);
+        document.write('Las combinaciones son: ' + c + '<br>');
+        document.write('La solución de la ecuación es: ' +  ecuacion(num1, num2));
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Factorial</title>
+</head>
+<body>
+    <script>
+        function factorial(num){
+            f = 1;
+            for(let i = 1; i <= num; i++){
+                f = f * i;
+            }
+            return f;
+        }
+
+        numero = parseInt(prompt('Digite el número:'));
+        document.write('El fatorial de ' + numero + ' es = ' +  factorial(numero));
+    </script>
+</body>
+</html>
