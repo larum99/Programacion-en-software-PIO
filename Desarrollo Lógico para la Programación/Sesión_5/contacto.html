@@ -3,40 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles_1.css">
+    <script defer src="js/contacto.js"></script>
     <title>Contacto</title>
 </head>
 <body>
     <form action="#" id="formRegistro" method="get">
         <h1>Contáctenos</h1>
-        <div class="grupo">
-            <label for="">Nombres</label>
-            <input type="text" name="" id="">
+        <div class="input-control">
+            <label for="txtNombre">Nombres</label>
+            <input type="text" name="nombre" id="txtNombre">
+            <div class="error"></div>
         </div>
-        <div class="grupo">
-            <label for="">Apellidos</label>
-            <input type="text" name="" id="">
+        <div class="input-control">
+            <label for="txtApellido">Apellidos</label>
+            <input type="text" name="apellido" id="txtApellido">
+            <div class="error"></div>
         </div>
-        <div class="grupo">
-            <label for="">Género</label>
-            <input type="radio" value="h" id="">Hombre
-            <input type="radio" value="m" id="">Mujer
-        </div>
-        <br>
-        <label for="">Teléfono</label>
-        <input type="text" name="" id="">
-        <br>
-        <label for="">Correo Electrónico</label>
-        <input type="email" name="email" id="" required>
-        <br>
-        <label for="">Contraseña</label>
-        <input type="password" name="clave" id="">
-        <br>
-        <div class="grupo">
-            <input type="checkbox" name="declaracion" id="">Estoy de acuerdo con...
+        <div>Género</label>
+            <input type="radio" name="genero" value="h"> Hombre
+            <input type="radio" name="genero" value="m"> Mujer
         </div>
         <br>
-        <input type="submit" value="enviar" class="boton">
+        <div class="input-control">
+            <label for="txtTelefono">Teléfono</label>
+            <input type="text" name="telefono" id="txtTelefono">
+            <div class="error"></div>
+        </div>
+        <div class="input-control">
+            <label for="txtEmail">Correo Electrónico</label>
+            <input type="email" name="email" id="txtEmail" required>
+            <div class="error"></div>
+        </div>
+        <div class="input-control">
+            <label for="txtPassword">Contraseña</label>
+            <input type="password" name="password" id="txtPassword">
+            <div class="error"></div>
+        </div>
+        <div>
+            <input type="checkbox" name="declaracion"> Estoy de acuerdo con...
+        </div>
+        <br>
+        <button type="submit" value="enviar" class="boton">Enviar</button>
     </form>
 </body>
 </html>

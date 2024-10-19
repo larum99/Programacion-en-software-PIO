@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos en JS</title>
+</head>
+<body>
+    <form action="">
+
+        <div class="input-control">
+            <input type="text" id="nombre" value="nombre" value="nombre" onfocus="vaciar(this);">
+        </div>
+        <br>
+        <div class="input-control">
+            <input type="text" id="edad" value="edad" onfocus="">
+        </div>
+        <br>
+        <button type="submit">Confirmar</button>
+    </form>
+    <script>
+        function vaciar(control){
+            control.value = '';
+        }
+        function verificarEntrada(control){
+            alert('Ingresó: ' + control.value);
+        }
+    </script>
+</body>
+</html>

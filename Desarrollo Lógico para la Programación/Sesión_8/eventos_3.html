@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos de JS</title>
+</head>
+<body>
+    <p id="contenidos_1">
+        [1] Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus id sequi numquam assumenda ex! Provident doloribus laboriosam quo saepe, ratione reiciendis possimus perferendis odio ut animi? Nihil officia molestias iure.
+    </p>
+    <a href="#" id="enlace_1" onclick="muestraOculta('1'); return false;">Ocultar contenidos</a>
+
+    <br>
+
+    <p id="contenidos_2">
+        [2] Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus id sequi numquam assumenda ex! Provident doloribus laboriosam quo saepe, ratione reiciendis possimus perferendis odio ut animi? Nihil officia molestias iure.
+    </p>
+    <a href="#" id="enlace_2" onclick="muestraOculta('2'); return false;">Ocultar contenidos</a>
+
+    <br>
+
+    <p id="contenidos_3">
+        [1] Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus id sequi numquam assumenda ex! Provident doloribus laboriosam quo saepe, ratione reiciendis possimus perferendis odio ut animi? Nihil officia molestias iure.
+    </p>
+    <a href="#" id="enlace_3" onclick="muestraOculta('3'); return false;">Ocultar contenidos</a>
+
+    <script>
+        function muestraOculta(id){
+            let elemento = document.getElementById('contenidos_' + id);
+            let enlace = document.getElementById('enlace_' + id);
+
+            if(elemento.style.display == '' || elemento.style.display == 'block'){
+                elemento.style.display = 'none';
+                enlace.innerHTML = 'Mostrar contenidos';
+            }
+            else{
+                elemento.style.display = 'block';
+                enlace.innerHTML = 'Ocultar contenidos';
+            }
+        }
+    </script>
+</body>
+</html>

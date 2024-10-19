@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" id="formRegistro">
+        <div class="input-control">
+            <input type="text" id="usuario" placeholder="Ingrese nombre de usuario">
+        </div>
+        <br>
+        <div class="input-control">
+            <input type="password" id="clave" placeholder="Ingrese la clave" onblur="verificar(this);">
+        </div>
+        <br>
+        <button type="submit">Confirmar</button>
+    </form>
+    <script>
+        function verificar(control){
+            if(control.value.length < 7 || control.value.length > 20){
+                alert('Cantidad de caracteres no válido en la clave.')
+            }
+        }
+        
+    </script>
+
+</body>
+</html>
