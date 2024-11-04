@@ -1,0 +1,85 @@
+En Base de Datos II, deben hacer una base de datos llamada supermercado que tenga las siguientes colecciones: empleados, clientes y productos
+Estructura de empleados: identificación, nombre, código_empleado y email 
+
+Estructura de clientes: identificación, nombres, dirección y teléfono
+Estructura de productos: código, categoría, descripción, stock, valor_unitario y descuento
+
+Deben insertar 5 documentos en cada coleccion y realizar cinco consultas:
+Encuentre el producto con el código P006
+El stock sea menor a 100
+El valor unitario sea mayor a 1000000
+El stock no sea igual a 100
+Actualizar un documento en todas las colecciones
+Se debe hacer por los comandos a través de la terminal con Mongo.
+
+
+
+use supermercado
+
+db.createCollection("empleados")
+db.createCollection("clientes")
+db.createCollection("productos")
+
+db.empleados.insertMany([
+    { identificacion: "123456", nombre: "Juan Pérez", codigo_empleado: "E001", email: "juan.perez@supermercado.com" },
+    { identificacion: "789012", nombre: "Ana López", codigo_empleado: "E002", email: "ana.lopez@supermercado.com" },
+    { identificacion: "345678", nombre: "Carlos Martínez", codigo_empleado: "E003", email: "carlos.martinez@supermercado.com" },
+    { identificacion: "901234", nombre: "María García", codigo_empleado: "E004", email: "maria.garcia@supermercado.com" },
+    { identificacion: "567890", nombre: "Luis Ramírez", codigo_empleado: "E005", email: "luis.ramirez@supermercado.com" }
+])
+
+db.clientes.insertMany([
+    { identificacion: "112233", nombres: "Sofía Gómez", direccion: "Calle 123", telefono: "3001234567" },
+    { identificacion: "223344", nombres: "Diego Torres", direccion: "Carrera 45", telefono: "3012345678" },
+    { identificacion: "334455", nombres: "Laura Moreno", direccion: "Avenida 9", telefono: "3023456789" },
+    { identificacion: "445566", nombres: "Pedro Ríos", direccion: "Calle 89", telefono: "3034567890" },
+    { identificacion: "556677", nombres: "Sandra Salazar", direccion: "Carrera 11", telefono: "3045678901" }
+])
+
+db.productos.insertMany([
+    { codigo: "P001", categoria: "Bebidas", descripcion: "Agua mineral", stock: 150, valor_unitario: 2000, descuento: 0 },
+    { codigo: "P002", categoria: "Snacks", descripcion: "Papas fritas", stock: 80, valor_unitario: 3000, descuento: 10 },
+    { codigo: "P003", categoria: "Lácteos", descripcion: "Leche deslactosada", stock: 50, valor_unitario: 4000, descuento: 5 },
+    { codigo: "P004", categoria: "Frutas", descripcion: "Banano", stock: 200, valor_unitario: 1000, descuento: 0 },
+    { codigo: "P006", categoria: "Carnes", descripcion: "Pollo entero", stock: 20, valor_unitario: 1200000, descuento: 15 }
+])
+
+
+db.productos.find({ codigo: "P006" })
+
+{ "_id" : ObjectId("6720f347cef9d3af57541089"), "codigo" : "P006", "categoria" : "Carnes", "descripcion" : "Pollo entero", "stock" : 20, "valor_unitario" : 1200000, "descuento" : 15 }
+
+db.productos.find({ stock: {$lt: 100 } })
+
+{ "_id" : ObjectId("6720f347cef9d3af57541086"), "codigo" : "P002", "categoria" : "Snacks", "descripcion" : "Papas fritas", "stock" : 80, "valor_unitario" : 3000, "descuento" : 10 }
+{ "_id" : ObjectId("6720f347cef9d3af57541087"), "codigo" : "P003", "categoria" : "Lácteos", "descripcion" : "Leche deslactosada", "stock" : 50, "valor_unitario" : 4000, "descuento" : 5 }
+{ "_id" : ObjectId("6720f347cef9d3af57541089"), "codigo" : "P006", "categoria" : "Carnes", "descripcion" : "Pollo entero", "stock" : 20, "valor_unitario" : 1200000, "descuento" : 15 }
+
+db.productos.find({ valor_unitario: {$gt: 1000000} })
+
+{ "_id" : ObjectId("6720f347cef9d3af57541089"), "codigo" : "P006", "categoria" : "Carnes", "descripcion" : "Pollo entero", "stock" : 20, "valor_unitario" : 1200000, "descuento" : 15 }
+
+db.productos.find({ stock: { $ne: 100 } })
+{ "_id" : ObjectId("6720f347cef9d3af57541085"), "codigo" : "P001", "categoria" : "Bebidas", "descripcion" : "Agua mineral", "stock" : 150, "valor_unitario" : 2000, "descuento" : 0 }
+{ "_id" : ObjectId("6720f347cef9d3af57541086"), "codigo" : "P002", "categoria" : "Snacks", "descripcion" : "Papas fritas", "stock" : 80, "valor_unitario" : 3000, "descuento" : 10 }
+{ "_id" : ObjectId("6720f347cef9d3af57541087"), "codigo" : "P003", "categoria" : "Lácteos", "descripcion" : "Leche deslactosada", "stock" : 50, "valor_unitario" : 4000, "descuento" : 5 }
+{ "_id" : ObjectId("6720f347cef9d3af57541088"), "codigo" : "P004", "categoria" : "Frutas", "descripcion" : "Banano", "stock" : 200, "valor_unitario" : 1000, "descuento" : 0 }
+{ "_id" : ObjectId("6720f347cef9d3af57541089"), "codigo" : "P006", "categoria" : "Carnes", "descripcion" : "Pollo entero", "stock" : 20, "valor_unitario" : 1200000, "descuento" : 15 }
+
+db.empleados.updateOne(
+...     { codigo_empleado: "E001" },
+...     { $set: { email: "juan.perez.updated@supermercado.com" } }
+... )
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+db.clientes.updateOne(
+...     { identificacion: "112233" },
+...     { $set: { direccion: "Calle 456" } }
+... )
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
+
+db.productos.updateOne(
+...     { codigo: "P001" },
+...     { $set: { stock: 175 } }
+... )
+{ "acknowledged" : true, "matchedCount" : 1, "modifiedCount" : 1 }
