@@ -1,0 +1,43 @@
+server
+
+mongodb atlas
+username: laurabarona
+password: 21IoDgNGnPMUptZe
+curl ifconfig.me /para saber la IP
+
+
+npm init -y
+
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" /genera clave aleatoria de 128 caracteres en hexadecimal
+
+npm install -g nodemon
+"scripts": {
+  "start": "nodemon index.js"
+}
+
+npm install express mongoose bcryptjs jsonwebtoken cors dotenv
+
+
+
+
+client
+
+
+
+ver video vulnerabilities overrides en json
+https://www.youtube.com/watch?v=vhsy9PPypP8&ab_channel=TheAmazingCodeverse
+
+,
+  "overrides": {
+    "svgo": {
+      "nth-check": "2.1.1"
+    },
+    "resolve-url-loader": {
+      "postcss": "8.4.49"
+    }
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.14"
+  }
+
+

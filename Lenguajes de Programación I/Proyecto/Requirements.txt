@@ -1,0 +1,6 @@
+Requerimientos del proyecto para Lenguaje de Programación I:
+En los formularios de Registrar usuario e iniciar sesión se debe conectar por medio de la base de datos (Mongo DB o PostgreSQL)
+Interacción con las películas que se encuentren en cartelera y escoger la fecha en que el usuario irá al teatro a ver la película de su preferencia, debe quedar registrado en la base de datos.
+Estos requerimientos deben estar listos para el 19 de noviembre
+Estimados(as) estudiantes:
+Es importante que tambien dentro de la app, se conozca si el usuario ya se encuentra activo en el sistema es preguntar para que ingrese o en su defecto, registrarse
