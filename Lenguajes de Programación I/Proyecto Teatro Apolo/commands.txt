@@ -1,0 +1,13 @@
+mongodb atlas
+username: laurabarona
+password: 21IoDgNGnPMUptZe
+curl ifconfig.me /para saber la IP
+
+npm init -y
+npm i express bcryptjs cors dotenv jsonwebtoken mongoose
+
+node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" /genera clave aleatoria de 128 caracteres en hexadecimal para el jwt_secret
+
+frontend
+
+npm create vite@latest .

@@ -1,10 +1,12 @@
-server
-
 mongodb atlas
 username: laurabarona
 password: 21IoDgNGnPMUptZe
 curl ifconfig.me /para saber la IP
 
+para entrar desde mongosh
+mongosh "mongodb+srv://cluster0.lmxhv.mongodb.net/" --apiVersion 1 --username laurabarona
+
+server
 
 npm init -y
 
@@ -12,7 +14,8 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" /genera
 
 npm install -g nodemon
 "scripts": {
-  "start": "nodemon index.js"
+  "start": "nodemon index.js",
+  "dev": "node --watch index.js", //npm run dev
 }
 
 npm install express mongoose bcryptjs jsonwebtoken cors dotenv
