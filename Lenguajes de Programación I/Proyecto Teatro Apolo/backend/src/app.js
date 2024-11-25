@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require('cors');
 const movieRoutes = require("./routes/moviesRoutes");
 const userRoutes = require("./routes/usersRoutes");
 const connectDB = require("./config/db");
@@ -10,6 +11,7 @@ const app = express();
 
 // Middlewares
 app.use(express.json());
+app.use(cors());
 
 // Configuración de las rutas
 (async () => {

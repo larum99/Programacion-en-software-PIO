@@ -11,3 +11,12 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))" /genera
 frontend
 
 npm create vite@latest .
+
+npm install -D tailwindcss postcss autoprefixer
+
+npx tailwindcss init -p
+
+react icons
+
+npm install react-icons --save
+

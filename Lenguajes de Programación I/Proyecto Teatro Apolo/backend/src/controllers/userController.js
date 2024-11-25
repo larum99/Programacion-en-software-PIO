@@ -4,6 +4,8 @@ const jwt = require("jsonwebtoken");
 const registerUser = async (req, res, User) => {
   const { email, password, confirmPassword, firstName, lastName, idDocument, idNumber, birthDate, phoneNumber } = req.body;
 
+  console.log("Datos recibidos en el backend:", req.body);
+
   if (password !== confirmPassword) {
     return res.status(400).json({ message: "Las contraseñas no coinciden" });
   }
@@ -19,6 +21,7 @@ const registerUser = async (req, res, User) => {
 
 // Inicio de sesión
 const loginUser = async (req, res, User) => {
+  // console.log('Solicitud de inicio de sesión recibida:', req.body);
   const { email, password } = req.body;
 
   try {
