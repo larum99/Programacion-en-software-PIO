@@ -1,0 +1,11 @@
+npx create-next-app@latest frontend
+
+
+Configurar Next.js con Tailwind CSS.
+Crear la estructura de páginas y componentes.
+Diseñar las vistas principales (Homepage, Movie Details, Booking).
+Implementar Redux para la gestión del estado.
+Conectar con el backend para obtener datos reales.
+
+
+Framer Motion: Para animaciones fluidas en botones y carruseles.
