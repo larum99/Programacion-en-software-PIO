@@ -1,6 +1,12 @@
 npx create-next-app@latest frontend
 
 
+mongodb atlas
+username: laurabarona
+password: 21IoDgNGnPMUptZe
+curl ifconfig.me /to know public IP in cmd
+
+
 Configurar Next.js con Tailwind CSS.
 Crear la estructura de páginas y componentes.
 Diseñar las vistas principales (Homepage, Movie Details, Booking).
@@ -9,3 +15,45 @@ Conectar con el backend para obtener datos reales.
 
 
 Framer Motion: Para animaciones fluidas en botones y carruseles.
+
+Conexión a MongoDB Atlas:
+
+La estructura de connectDB es clara, manejando conexiones múltiples. Asegúrate de que las variables de entorno (MONGO_URI_MFLIX y MONGO_URI_CINEMA) están correctamente configuradas y accesibles.
+Estás mezclando mongoose.connect para una conexión y mongoose.createConnection para otra. Esto puede ser confuso; asegúrate de documentar bien esta decisión.
+Validaciones en el esquema de usuario:
+
+La validación del correo electrónico y la contraseña son excelentes. Asegúrate de comunicar al usuario de manera clara si algún campo no cumple los requisitos.
+Manejo de errores:
+
+En las funciones del controlador (registerUser, loginUser, etc.), asegúrate de capturar cualquier excepción específica de Mongoose, como errores de validación o duplicados, y envía respuestas más detalladas al cliente.
+Rutas y modularización:
+
+Modularizar usersRoutes con la capacidad de aceptar la conexión como parámetro es una buena práctica, especialmente cuando usas múltiples bases de datos.
+Configuración de CORS:
+
+La configuración de cors está bien para un entorno local, pero para producción, limita los dominios permitidos y utiliza HTTPS.
+Variables sensibles:
+
+Estás usando variables de entorno como JWT_SECRET. Asegúrate de que estas variables no sean públicas y estén almacenadas en un entorno seguro.
+Tokens JWT:
+
+Los tokens tienen un tiempo de expiración de 1 hora. Considera implementar la funcionalidad de refrescar el token para mejorar la experiencia del usuario.
+Sugerencias:
+Manejo de desconexión de la base de datos:
+
+Implementa un manejo para reconectar automáticamente si alguna de las conexiones a MongoDB falla después de establecerse.
+Optimización de middleware:
+
+Si planeas añadir autorización basada en roles, considera agregar un middleware para verificar el token JWT y los permisos del usuario antes de acceder a rutas específicas.
+Protección de rutas:
+
+En las rutas de /tickets, considera protegerlas para que solo usuarios autenticados puedan acceder.
+Documentación API:
+
+Usa herramientas como Swagger o Postman para documentar y probar tu API, especialmente ahora que tienes múltiples funcionalidades en diferentes rutas.
+Pruebas:
+
+Implementa pruebas unitarias y de integración para garantizar que tus rutas y funcionalidades trabajan como esperas.
+Consistencia en uso de variables:
+
+Revisa las claves de tus rutas (/movies, /users, /tickets) para asegurarte de que son intuitivas y fáciles de usar.

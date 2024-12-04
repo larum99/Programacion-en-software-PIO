@@ -1,28 +1,19 @@
-'use client'; // Necesario para usar hooks en Next.js
+'use client';
 
-import { useState, useEffect } from "react";
+import { useAuth } from '../context/AuthContext'; // Ajusta la ruta si es necesario
 import Link from "next/link";
 import Image from "next/image";
 import { ArrowRightEndOnRectangleIcon, ArrowRightStartOnRectangleIcon } from '@heroicons/react/24/outline';
-import { useRouter } from "next/navigation"; // Para redirigir después de logout
+import { useRouter } from "next/navigation";
 
 export default function Navbar() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, logout } = useAuth();
   const router = useRouter();
 
-  // Comprobar si el usuario está logueado revisando el token en localStorage
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      setIsLoggedIn(true);
-    }
-  }, []);
-
-  // Función para manejar el logout
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-    router.push('/'); // Redirigir al inicio después de cerrar sesión
+    localStorage.removeItem("token");
+    logout(); // Actualiza el estado global
+    router.push('/');
   };
 
   return (
@@ -31,7 +22,6 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <Link href="/">
-            {/* Imagen como logo */}
             <Image
               src="/logo.png"
               alt="Teatro Apolo Logo"
@@ -62,19 +52,23 @@ export default function Navbar() {
           </li>
         </ul>
 
-        {/* Icono de login/logout */}
-        <a
-          href={isLoggedIn ? "#" : "/login"}
-          onClick={isLoggedIn ? handleLogout : null}
-          className="flex items-center gap-2 text-secondary-color hover:text-secondary-color-dark transition duration-200"
+        {/* Botón login/logout */}
+        <button
+          onClick={isLoggedIn ? handleLogout : () => router.push('/login')}
+          className="flex items-center gap-2 transition duration-200"
         >
           {isLoggedIn ? (
-            <ArrowRightStartOnRectangleIcon className="h-6 w-6" />
+            <>
+              <ArrowRightStartOnRectangleIcon className="h-6 w-6 text-secondary-dark hover:text-secondary" />
+              <span className="hidden sm:inline">Cerrar sesión</span>
+            </>
           ) : (
-            <ArrowRightEndOnRectangleIcon className="h-6 w-6" />
+            <>
+              <ArrowRightEndOnRectangleIcon className="h-6 w-6 text-secondary-dark hover:text-secondary" />
+              <span className="hidden sm:inline">Iniciar sesión</span>
+            </>
           )}
-          <span className="hidden sm:inline">{isLoggedIn ? "Cerrar sesión" : "Iniciar sesión"}</span>
-        </a>
+        </button>
       </div>
     </nav>
   );

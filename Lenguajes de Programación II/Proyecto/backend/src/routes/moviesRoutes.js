@@ -2,10 +2,11 @@ const express = require("express");
 const movieController = require("../controllers/movieController");
 const router = express.Router();
 
-// Obtener todas las películas
-router.get("/", movieController.getAllMovies);
+// Obtener todas las películas desde TMDb
+router.get("/tmdb/all", movieController.getAllMoviesFromTMDb);
 
-// Obtener una película por ID
-router.get("/:id", movieController.getMovieById);
+// Ruta para obtener las películas en cartelera
+
+router.get('/now-playing', movieController.getNowPlayingMoviesFromTMDb);
 
 module.exports = router;
