@@ -4,12 +4,12 @@ const mongoose = require("mongoose");
 const ticketSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User",  // Relación con el modelo User
+    ref: "User",
     required: true
   },
   movieId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Movie",  // Relación con el modelo Movie
+    ref: "Movie",
     required: true
   },
   date: {

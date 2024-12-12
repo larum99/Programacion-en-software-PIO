@@ -41,7 +41,7 @@ export default function Navbar() {
             </Link>
           </li>
           <li>
-            <Link href="/movies" className="hover:text-secondary">
+            <Link href="/movies" prefetch={true}  className="hover:text-secondary">
               Cartelera
             </Link>
           </li>

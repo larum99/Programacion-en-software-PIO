@@ -1,5 +1,6 @@
 const express = require("express");
 const { registerUser, loginUser, getAllUsers } = require("../controllers/userController");
+const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 module.exports = (connCinema) => {
@@ -12,7 +13,7 @@ module.exports = (connCinema) => {
   router.post("/login", (req, res) => loginUser(req, res, User));
 
   // Obtener todos los usuarios
-  router.get("/", (req, res) => getAllUsers(req, res, User));
+  router.get("/", authMiddleware, (req, res) => getAllUsers(req, res, User));
 
   return router;
 };

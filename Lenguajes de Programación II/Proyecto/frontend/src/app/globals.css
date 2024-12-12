@@ -20,3 +20,20 @@ body {
   background-color: var(--primary-color);
   color: var(--text-light);
 }
+.swiper-button-next,
+.swiper-button-prev {
+  @apply text-white !important;
+  @apply hover:text-secondary !important;
+}
+
+.swiper-wrapper {
+  overflow: visible !important; /* Permitir que los elementos sobresalgan */
+}
+
+.swiper-slide {
+  overflow: visible !important;
+}
+
+.swiper {
+  overflow: visible !important;
+}
