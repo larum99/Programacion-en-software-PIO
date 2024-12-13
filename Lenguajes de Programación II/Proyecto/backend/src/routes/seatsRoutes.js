@@ -1,9 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const { getAvailableSeats, reserveSeat } = require('../controllers/seatController');
+const { authMiddleware } = require('../middlewares/authMiddleware')
 
-router.get('/:roomName', getAvailableSeats);
+const router = express.Router();
 
-router.put('/reserve/:seatId', reserveSeat);
+router.get('/:roomName', authMiddleware, getAvailableSeats);
+
+router.put('/reserve/:seatId', authMiddleware, reserveSeat);
 
 module.exports = router;

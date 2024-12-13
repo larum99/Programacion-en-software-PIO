@@ -2,26 +2,41 @@
 
 import { createContext, useContext, useState, useEffect } from "react";
 
-// Contexto de autenticación
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [role, setRole] = useState(null); // Nuevo estado para el rol del usuario
 
-    // Comprobar el token al montar el componente
     useEffect(() => {
         const token = localStorage.getItem("token");
         if (token) {
-            setIsLoggedIn(true);
+            try {
+                const { role } = JSON.parse(atob(token.split(".")[1])); // Decodificar token
+                setIsLoggedIn(true);
+                setRole(role);
+            } catch (error) {
+                console.error("Token inválido:", error);
+                localStorage.removeItem("token");
+            }
         }
     }, []);
 
-    // Funciones para login y logout
-    const login = () => setIsLoggedIn(true);
-    const logout = () => setIsLoggedIn(false);
+    const login = (token) => {
+        const { role } = JSON.parse(atob(token.split(".")[1])); // Decodificar rol
+        localStorage.setItem("token", token);
+        setIsLoggedIn(true);
+        setRole(role);
+    };
+
+    const logout = () => {
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
+        setRole(null);
+    };
 
     return (
-        <AuthContext.Provider value={{ isLoggedIn, login, logout }}>
+        <AuthContext.Provider value={{ isLoggedIn, role, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

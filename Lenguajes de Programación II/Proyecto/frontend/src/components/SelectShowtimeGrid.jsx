@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';  
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const SelectShowtimeGrid = ({ movieId, onShowtimeSelect }) => {
@@ -11,7 +11,7 @@ const SelectShowtimeGrid = ({ movieId, onShowtimeSelect }) => {
         const fetchShowtimes = async () => {
             try {
                 const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/showtimes/${movieId}`);
-                setShowtimes(response.data);  
+                setShowtimes(response.data);
                 setLoading(false);
             } catch (error) {
                 console.error('Error al obtener las funciones:', error);

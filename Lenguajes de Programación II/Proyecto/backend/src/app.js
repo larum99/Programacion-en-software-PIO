@@ -5,6 +5,7 @@ const userRoutes = require("./routes/usersRoutes");
 const roomsRoutes = require("./routes/roomsRoutes");
 const seatsRoutes = require("./routes/seatsRoutes");
 const showTimesRoutes = require("./routes/showTimesRoutes");
+const ticketsRoutes = require("./routes/ticketsRoutes");
 const connectDB = require("./config/db");
 require("dotenv").config();
 
@@ -29,6 +30,8 @@ app.use(cors());
     app.use("/seats", seatsRoutes);
 
     app.use("/showtimes", showTimesRoutes);
+
+    app.use("/tickets", ticketsRoutes);
     
   } catch (error) {
     console.error("Error al conectar a la base de datos:", error.message);

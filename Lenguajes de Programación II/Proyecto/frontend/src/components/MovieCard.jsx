@@ -2,7 +2,6 @@
 import Link from "next/link";
 
 const MovieCard = ({ movie, genres }) => {
-    // Obtener los nombres de los géneros
     const movieGenres = movie.genre_ids.map((id) => genres[id]).join(', ');
 
     return (

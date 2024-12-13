@@ -1,4 +1,3 @@
-// src/app/login/page.js
 import LoginForm from "../../components/LoginForm"; // Asegúrate de la ruta correcta
 
 export default function LoginPage() {

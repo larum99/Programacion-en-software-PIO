@@ -5,6 +5,7 @@ import MovieHeader from '@/components/MovieHeader';
 import SelectShowtimeGrid from '@/components/SelectShowtimeGrid';
 import SelectSeat from '@/components/SelectSeat';
 import Ticket from '@/components/Ticket';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 const SelectShowtime = ({ params }) => {
     const { id: movieId } = React.use(params);
@@ -57,43 +58,45 @@ const SelectShowtime = ({ params }) => {
     }, [selectedShowtime]);
 
     const handleConfirm = () => {
-        setShowTicket(true);  // Cambiar el estado para mostrar el componente Ticket
+        setShowTicket(true);
     };
 
     return (
-        <div className="p-6 bg-primary-light flex flex-col items-center justify-center">
-            <MovieHeader title={movie?.title} />
-            <div className="flex flex-col lg:flex-row gap-6 m-6 items-start">
-                {movie ? (
-                    <img
-                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                        alt={movie.title}
-                        className="w-72 h-auto max-h-[450px] rounded-lg object-cover"
-                    />
-                ) : (
-                    <p className="text-white">Cargando información de la película...</p>
-                )}
-                {!selectedShowtime ? (
-                    <SelectShowtimeGrid movieId={movieId} onShowtimeSelect={setSelectedShowtime} />
-                ) : showTicket ? (
-                    <Ticket movie={movie} selectedShowtime={selectedShowtime} selectedSeats={selectedSeats} />
-                ) : (
-                    <div className="w-full">
-                        {loadingSeats ? (
-                            <p className="text-white">Cargando asientos...</p>
-                        ) : errorSeats ? (
-                            <p className="text-red-500">{errorSeats}</p>
-                        ) : (
-                            <SelectSeat
-                                seats={seats}
-                                onSeatSelect={setSelectedSeats}
-                                onConfirm={handleConfirm}  // Llamar a handleConfirm cuando el usuario confirme
-                            />
-                        )}
-                    </div>
-                )}
+        <ProtectedRoute>
+            <div className="p-6 bg-primary-light flex flex-col items-center justify-center">
+                <MovieHeader title={movie?.title} />
+                <div className="flex flex-col lg:flex-row gap-6 m-6 items-start">
+                    {movie ? (
+                        <img
+                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                            alt={movie.title}
+                            className="w-72 h-auto max-h-[450px] rounded-lg object-cover"
+                        />
+                    ) : (
+                        <p className="text-white">Cargando información de la película...</p>
+                    )}
+                    {!selectedShowtime ? (
+                        <SelectShowtimeGrid movieId={movieId} onShowtimeSelect={setSelectedShowtime} />
+                    ) : showTicket ? (
+                        <Ticket movie={movie} selectedShowtime={selectedShowtime} selectedSeats={selectedSeats} />
+                    ) : (
+                        <div className="w-full">
+                            {loadingSeats ? (
+                                <p className="text-white">Cargando asientos...</p>
+                            ) : errorSeats ? (
+                                <p className="text-red-500">{errorSeats}</p>
+                            ) : (
+                                <SelectSeat
+                                    seats={seats}
+                                    onSeatSelect={setSelectedSeats}
+                                    onConfirm={handleConfirm}
+                                />
+                            )}
+                        </div>
+                    )}
+                </div>
             </div>
-        </div>
+        </ProtectedRoute>
     );
 };
 

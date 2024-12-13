@@ -8,7 +8,7 @@ const getOrGenerateShowtimes = async (req, res) => {
     try {
         let showtimes = await ShowTime.find({ movieId: tmdbId })
             .populate("roomId")
-            .lean();  // Usar lean para objetos planos
+            .lean();
 
         if (showtimes.length === 0) {
             const defaultTimes = ["12:00", "15:00", "18:00", "21:00"];

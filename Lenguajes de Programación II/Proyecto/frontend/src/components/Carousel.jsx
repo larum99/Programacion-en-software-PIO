@@ -17,13 +17,12 @@ const Carousel = () => {
             try {
                 const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
-                // Obtener géneros de TMDB
                 const genresResponse = await axios.get(
                     `https://api.themoviedb.org/3/genre/movie/list`,
                     {
                         params: {
                             api_key: apiKey,
-                            language: 'es-ES', // Idioma español
+                            language: 'es-ES',
                         },
                     }
                 );
@@ -32,7 +31,6 @@ const Carousel = () => {
                     return map;
                 }, {});
 
-                // Obtener películas en cartelera (now-playing)
                 const moviesResponse = await axios.get(
                     `https://api.themoviedb.org/3/movie/now_playing`,
                     {
@@ -43,15 +41,13 @@ const Carousel = () => {
                     }
                 );
 
-                // Filtrar películas por fecha de lanzamiento (solo películas recientes)
                 const today = new Date();
                 const recentMovies = moviesResponse.data.results.filter((movie) => {
                     const releaseDate = new Date(movie.release_date);
-                    const differenceInDays = (today - releaseDate) / (1000 * 60 * 60 * 24); // Diferencia en días
-                    return differenceInDays <= 30; // Solo películas lanzadas en los últimos 30 días
+                    const differenceInDays = (today - releaseDate) / (1000 * 60 * 60 * 24);
+                    return differenceInDays <= 30;
                 });
 
-                // Actualizar estados con películas filtradas y géneros
                 setMovies(recentMovies);
                 setGenres(genresMap);
                 setLoading(false);
@@ -73,7 +69,7 @@ const Carousel = () => {
     }
 
     return (
-        <div className="w-full h-96 bg-primary-light py-6 overflow-visible relative"> {/* Fondo oscuro */}
+        <div className="w-full h-96 bg-primary-light py-6 overflow-visible relative">
             <Swiper
                 modules={[Autoplay, Navigation]}
                 spaceBetween={10}
@@ -93,7 +89,6 @@ const Carousel = () => {
                     </SwiperSlide>
                 ))}
             </Swiper>
-            {/* Botones de navegación personalizados */}
             <div className="swiper-button-next"></div>
             <div className="swiper-button-prev"></div>
         </div>

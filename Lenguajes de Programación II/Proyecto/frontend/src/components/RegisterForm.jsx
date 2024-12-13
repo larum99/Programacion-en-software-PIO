@@ -12,7 +12,7 @@ export default function RegisterForm() {
         confirmPassword: "",
         firstName: "",
         lastName: "",
-        idDocument: "Cédula de Ciudadanía", // Valor predeterminado
+        idDocument: "Cédula de Ciudadanía",
         idNumber: "",
         birthDate: "",
         phoneNumber: "",

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { useAuth } from '../context/AuthContext'; // Ajusta la ruta
+import { useAuth } from '../context/AuthContext';
 import Link from "next/link";
 
 export default function LoginForm() {
@@ -17,15 +17,16 @@ export default function LoginForm() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5000/users/login", {
+      const response = await axios.post("http://localhost:4200/users/login", {
         email,
         password,
       });
 
       // Guarda el token y actualiza el estado global
       localStorage.setItem("token", response.data.token);
-      login(); // Actualiza el estado global
-      router.push("/movies");
+      login(response.data.token); // Actualiza el estado global pasando el token
+      console.log("Token guardado:", response.data.token);
+      router.push("/");
     } catch (error) {
       setError(error.response?.data?.message || "Ocurrió un error. Por favor, intenta nuevamente.");
     }

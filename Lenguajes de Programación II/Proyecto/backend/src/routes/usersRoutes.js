@@ -1,6 +1,6 @@
 const express = require("express");
 const { registerUser, loginUser, getAllUsers } = require("../controllers/userController");
-const { authMiddleware, verifyRole } = require("../middlewares/authMiddleware")
+const { authMiddleware } = require("../middlewares/authMiddleware")
 const router = express.Router();
 
 module.exports = (connCinema) => {

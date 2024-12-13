@@ -1,9 +1,10 @@
 const express = require("express");
-const { getAllRooms, createRoom, getSeatsByRoom } = require("../controllers/roomController");
+const { getAllRooms, getSeatsByRoom } = require("../controllers/roomController");
+const { authMiddleware } = require("../middlewares/authMiddleware")
 
 const router = express.Router();
 
-router.get("/", getAllRooms);
-router.get("/:roomId/seats", getSeatsByRoom);
+router.get("/", authMiddleware, getAllRooms);
+router.get("/:roomId/seats", authMiddleware, getSeatsByRoom);
 
 module.exports = router;
