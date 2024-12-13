@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken'); // Para verificar el token
+const jwt = require('jsonwebtoken');
 
 const authMiddleware = (req, res, next) => {
   // Obtener el token del encabezado Authorization
@@ -11,12 +11,19 @@ const authMiddleware = (req, res, next) => {
 
   try {
     // Verificar el token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET); // JWT_SECRET debe estar en .env
-    req.user = decoded.user; // Añadir la información del usuario al objeto req
-    next(); // Continuar con la siguiente función (controlador)
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    req.user = decoded.user;
+    next();
   } catch (error) {
     return res.status(401).json({ msg: 'Token no válido.' });
   }
 };
 
-module.exports = authMiddleware;
+const verifyRole = (roles) => (req, res, next) => {
+  if (!roles.includes(req.user.role)) {
+    return res.status(403).json({ message: "No tienes permiso para acceder a esta ruta." });
+  }
+  next();
+};
+
+module.exports = { authMiddleware, verifyRole};

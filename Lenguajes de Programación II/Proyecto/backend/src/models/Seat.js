@@ -1,10 +1,11 @@
 const mongoose = require('mongoose');
 
 const seatSchema = new mongoose.Schema({
-  movieId: { type: mongoose.Schema.Types.ObjectId, ref: 'Movie', required: true },
-  roomId: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true },
-  seatNumber: { type: String, required: true },
-  isReserved: { type: Boolean, default: false },
+  _id: mongoose.Schema.Types.ObjectId,
+  row: { type: String, required: true },
+  number: { type: Number, required: true },
+  status: { type: String, enum: ['available', 'occupied', 'reserved'], default: 'available' },
+  room: { type: mongoose.Schema.Types.ObjectId, ref: 'Room', required: true }
 });
 
 module.exports = mongoose.model('Seat', seatSchema);

@@ -2,10 +2,10 @@ import axios from 'axios';
 import MovieHeader from '@/components/MovieHeader';
 import MovieDetails from '@/components/MovieDetails';
 import MovieTrailer from '@/components/MovieTrailer';
-import SelectRoomLink from '@/components/SelectRoomLink';
+import SelectShowtimeLink from '@/components/SelectShowtimeLink';
 
 const MovieDetail = async ({ params }) => {
-    const { id } = params;
+    const { id } = await params;
     const apiKey = process.env.NEXT_PUBLIC_TMDB_API_KEY;
 
     // Obtener detalles de la película
@@ -36,7 +36,7 @@ const MovieDetail = async ({ params }) => {
                 />
                 <MovieTrailer trailerKey={trailer?.key} title={movie.title} />
             </div>
-            <SelectRoomLink id={id} />
+            <SelectShowtimeLink id={id} />
         </div>
     );
 };

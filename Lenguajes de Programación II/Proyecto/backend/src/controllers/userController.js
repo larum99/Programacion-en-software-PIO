@@ -12,6 +12,7 @@ const registerUser = async (req, res, User) => {
     idNumber,
     birthDate,
     phoneNumber,
+    role = user,
   } = req.body;
 
   console.log("Datos recibidos en el backend:", req.body);
@@ -30,6 +31,7 @@ const registerUser = async (req, res, User) => {
       idNumber,
       birthDate,
       phoneNumber,
+      role,
     });
     await newUser.save();
     res.status(201).json({ message: "Usuario registrado exitosamente" });
@@ -64,10 +66,10 @@ const loginUser = async (req, res, User) => {
     }
 
     const token = jwt.sign(
-      { id: user._id, email: user.email },
+      { id: user._id, email: user.email, role: user.role }, // Incluir rol en el token
       process.env.JWT_SECRET,
       {
-        expiresIn: "1h", // Token válido por 1 hora
+        expiresIn: "1h",
       }
     );
 

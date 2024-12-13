@@ -52,7 +52,7 @@ const getSeatsByRoom = async (req, res) => {
 
     res.status(200).json(seats);
   } catch (error) {
-    console.error("Error en getSeatsByRoom:", error); // Registra el error completo
+    console.error("Error en getSeatsByRoom:", error);
     res.status(500).json({ message: "Error al obtener los asientos.", error: error.message });
   }
 };

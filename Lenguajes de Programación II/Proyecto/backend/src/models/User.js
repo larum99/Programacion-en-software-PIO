@@ -1,14 +1,12 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
-
-// Definir el esquema para usuarios
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "El correo es obligatorio"],
     unique: true,
-    match: [/^\S+@\S+\.\S+$/, "El correo debe tener un formato válido"], // Validación de formato de correo
+    match: [/^\S+@\S+\.\S+$/, "El correo debe tener un formato válido"],
   },
   password: {
     type: String,
@@ -38,7 +36,7 @@ const userSchema = new mongoose.Schema({
   idDocument: {
     type: String,
     required: [true, "El documento de identidad es obligatorio"],
-    enum: ["Cédula de Ciudadanía", "Pasaporte", "Tarjeta de Identidad"], // Opciones válidas
+    enum: ["Cédula de Ciudadanía", "Pasaporte", "Tarjeta de Identidad"],
   },
   idNumber: {
     type: String,
@@ -51,7 +49,7 @@ const userSchema = new mongoose.Schema({
     validate: {
       validator: function (value) {
         const today = new Date();
-        return value < today; // Debe ser una fecha pasada
+        return value < today;
       },
       message: "La fecha de nacimiento debe ser anterior a hoy",
     },
@@ -60,6 +58,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "El número de celular es obligatorio"],
     match: [/^\d{10}$/, "El número de celular debe tener 10 dígitos"],
+  },
+  role: {
+    type: String,
+    enum: ["user", "admin"],
+    default: "user",
+    required: [true, "El rol es obligatorio"],
   },
 },{
   versionKey: false

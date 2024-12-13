@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require('cors');
 const movieRoutes = require("./routes/moviesRoutes");
 const userRoutes = require("./routes/usersRoutes");
-const ticketsRoutes = require("./routes/ticketsRoutes")
 const roomsRoutes = require("./routes/roomsRoutes");
+const seatsRoutes = require("./routes/seatsRoutes");
 const showTimesRoutes = require("./routes/showTimesRoutes");
 const connectDB = require("./config/db");
 require("dotenv").config();
@@ -20,16 +20,13 @@ app.use(cors());
   try {
     const connCinema = await connectDB();
 
-    // Rutas para películas (ahora conectadas a TMDB)
     app.use("/movies", movieRoutes);
 
-    // Rutas para usuarios
     app.use("/users", userRoutes(connCinema));
-    
-    // Rutas para tickets
-    app.use("/tickets", ticketsRoutes(connCinema));
 
     app.use("/rooms", roomsRoutes);
+
+    app.use("/seats", seatsRoutes);
 
     app.use("/showtimes", showTimesRoutes);
     
